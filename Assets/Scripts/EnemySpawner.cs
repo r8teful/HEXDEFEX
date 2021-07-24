@@ -23,11 +23,8 @@ public class EnemySpawner : MonoBehaviour {
 
     private void GetNewSpawnPoint() {
         var spawnAngle = Random.Range(0, 359);
-        Debug.Log("spawnAngle: " + spawnAngle);
         var x = Mathf.Cos(spawnAngle * Mathf.Deg2Rad) * spawnCircle.radius;
         var y = Mathf.Sin(spawnAngle * Mathf.Deg2Rad) * spawnCircle.radius;
-        Debug.Log("x: " + x);
-        Debug.Log("y: " + y);
         Instantiate(enemy,new Vector2(x, y), Quaternion.identity,transform);
     }
 }
