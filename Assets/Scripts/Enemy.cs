@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour {
+
     public float moveSpeed;
     private Vector2 curPosition;
     void FixedUpdate()
