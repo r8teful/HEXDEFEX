@@ -11,7 +11,6 @@ public class Enemy : MonoBehaviour {
         moveTowardsShip();
     }
     
-
     // Calculates in what direction the enemy has to move in order to get to the ship
     // Should be called each timestep unless the enemy has other intentions
     void moveTowardsShip() {

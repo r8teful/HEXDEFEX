@@ -16,15 +16,17 @@ public class EnemySpawner : MonoBehaviour {
 
     private IEnumerator SpawnEnemy() {
         while (true) {
-            GetNewSpawnPoint();
-           yield return new WaitForSeconds(spawnDelay);
+            Vector2 spawnPoint = GetNewSpawnPoint();
+            Instantiate(enemy, spawnPoint, Quaternion.identity, transform);
+            yield return new WaitForSeconds(spawnDelay);
         }
     }
 
-    private void GetNewSpawnPoint() {
+    private Vector2 GetNewSpawnPoint() {
         var spawnAngle = Random.Range(0, 359);
         var x = Mathf.Cos(spawnAngle * Mathf.Deg2Rad) * spawnCircle.radius;
         var y = Mathf.Sin(spawnAngle * Mathf.Deg2Rad) * spawnCircle.radius;
-        Instantiate(enemy,new Vector2(x, y), Quaternion.identity,transform);
+        return new Vector2(x, y);
+       
     }
 }

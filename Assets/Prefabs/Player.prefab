@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1465657919132253434}
   - component: {fileID: 1465657919132253381}
   - component: {fileID: 1465657919132253380}
+  - component: {fileID: 1079613518}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -73,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2135585597343286014, guid: 5aa8b770bc43046bc8d993d0d5b7f4a5, type: 3}
+  m_Sprite: {fileID: 2747690628134850419, guid: b670ab75dde984907b8570040daa08c5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,3 +98,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnspeed: 3
+--- !u!114 &1079613518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465657919132253383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc003ffe67c18624dbb3e69e8606cd3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GunSlots:
+  - {fileID: 4066870420755394251, guid: bfd003ae32527914a810311d4ecb1db0, type: 3}
+  - {fileID: 4066870420755394251, guid: bfd003ae32527914a810311d4ecb1db0, type: 3}
+  - {fileID: 4066870420755394251, guid: bfd003ae32527914a810311d4ecb1db0, type: 3}
+  - {fileID: 4066870420755394251, guid: bfd003ae32527914a810311d4ecb1db0, type: 3}
+  - {fileID: 4066870420755394251, guid: bfd003ae32527914a810311d4ecb1db0, type: 3}
+  - {fileID: 4066870420755394251, guid: bfd003ae32527914a810311d4ecb1db0, type: 3}
+  Gun: {fileID: 4066870420755394251, guid: bfd003ae32527914a810311d4ecb1db0, type: 3}
+  Gun1: {fileID: 0}

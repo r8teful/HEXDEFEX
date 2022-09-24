@@ -65,4 +65,10 @@ public class Gun : MonoBehaviour {
     }
 
     // -----------------Multi--------------------- // 
+
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.Alpha2)) {
+            transform.Rotate(new Vector3(0,0,-1));
+        }
+    }
 }
