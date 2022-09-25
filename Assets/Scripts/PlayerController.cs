@@ -38,34 +38,19 @@ public class PlayerController : MonoBehaviour {
 
                 float angle = Vector2.SignedAngle(positionInitial, pos);
                 angleTargetQ = Quaternion.Euler(0, 0, angle + angleInitial);
-                Debug.Log(angle + angleInitial);
-
 
                 transform.rotation = Quaternion.Slerp(transform.rotation, angleTargetQ, 7.5f * Time.deltaTime);
-
-                //var a = Mathf.MoveTowardsAngle(angleInitial, angle + angleInitial, 0.1f * Time.deltaTime);
-                //transform.eulerAngles = new Vector3(0, 0, a);
-                //transform.rotation = Quaternion.RotateTowards(angleInitalQ, angleTargetQ, 1000*Time.deltaTime);
-                //transform.rotation = Quaternion.Euler(0,0, angleInitial + angle);
             }
             if ((touch.phase == TouchPhase.Ended) || (touch.phase == TouchPhase.Canceled)) {
                 positionInitial = Vector3.zero;
             }
         }
-       
         if (Input.GetKeyDown(KeyCode.Space)) {
             inc += 100;
             Debug.Log(inc);
         }
-
-        //var a = Mathf.MoveTowardsAngle(transform.eulerAngles.z, inc, 10f * Time.deltaTime);
-        //transform.eulerAngles = new Vector3(0, 0, a);
-       // transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, inc), 20 * Time.deltaTime);
         Debug.DrawRay(Vector3.zero, positionInitial*10, Color.red);
-        
     }
-
-
     void FixedUpdate() {
         
         transform.Rotate(new Vector3(0,0,-input*turnspeed));

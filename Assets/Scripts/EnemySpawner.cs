@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour {
     public float spawnDelay;
+    private int spawnAngle;
     [SerializeField] private CircleCollider2D spawnCircle;
     [SerializeField] private UnityEngine.Object enemy;
     private void Start() {
@@ -23,10 +24,9 @@ public class EnemySpawner : MonoBehaviour {
     }
 
     private Vector2 GetNewSpawnPoint() {
-        var spawnAngle = Random.Range(0, 359);
+            var spawnAngle = Random.Range(0, 359);
         var x = Mathf.Cos(spawnAngle * Mathf.Deg2Rad) * spawnCircle.radius;
         var y = Mathf.Sin(spawnAngle * Mathf.Deg2Rad) * spawnCircle.radius;
         return new Vector2(x, y);
-       
     }
 }

@@ -27,10 +27,10 @@ public class GunPlacer : MonoBehaviour {
     }
     private void Update() {
        // Debug.Log(Quaternion.Euler(0, 0, gameObject.transform.rotation.z));
-        if (Input.GetKeyDown(KeyCode.Alpha1)) {
+        //if (Input.GetKeyDown(KeyCode.Alpha1)) {
             // Instantate a Gun object on 1st slot. Player has to be in default orientation 
-            Gun1 = Instantiate(Gun,GunPositions[0],Quaternion.Euler(0,0,GunRotations[0]),transform);
-            Gun1.GetComponent<Gun>().guntype = GunType.Multi;
-        }
+            //Gun1 = Instantiate(Gun,GunPositions[0],Quaternion.Euler(0,0,GunRotations[0]),transform);
+            //Gun1.GetComponent<Gun>().guntype = GunType.Multi;
+        //}
     }
 }

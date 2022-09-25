@@ -23,8 +23,10 @@ public class Bullet : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.gameObject.CompareTag("Enemy")) {
-            // Destroy Enemy & Bullet
+            // Destroy Enemy
+            // TODO -- TAKE HEALTH INTO ACCOUNT ETC.
             Destroy(collision.gameObject);
+            // Destroy bullet
             Destroy(gameObject);
         }
     }
