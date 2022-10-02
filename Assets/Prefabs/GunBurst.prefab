@@ -54,22 +54,22 @@ PrefabInstance:
     - target: {fileID: 4066870420755394248, guid: bfd003ae32527914a810311d4ecb1db0, type: 3}
       propertyPath: weaponData
       value: 
-      objectReference: {fileID: 11400000, guid: 2ea21e4ae42677041b53bc94a33d2625, type: 2}
+      objectReference: {fileID: 11400000, guid: 349ab35fac75bc8439276511656dd24c, type: 2}
     - target: {fileID: 4066870420755394249, guid: bfd003ae32527914a810311d4ecb1db0, type: 3}
       propertyPath: m_Color.b
-      value: 0.060203552
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4066870420755394249, guid: bfd003ae32527914a810311d4ecb1db0, type: 3}
       propertyPath: m_Color.g
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4066870420755394249, guid: bfd003ae32527914a810311d4ecb1db0, type: 3}
       propertyPath: m_Color.r
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4066870420755394251, guid: bfd003ae32527914a810311d4ecb1db0, type: 3}
       propertyPath: m_Name
-      value: GunMulti
+      value: GunBurst
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bfd003ae32527914a810311d4ecb1db0, type: 3}

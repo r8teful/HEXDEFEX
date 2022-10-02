@@ -13,6 +13,7 @@ public class Weapon : MonoBehaviour {
     public Stats Stats { get; private set; }
     // TODO TOMOROW. MAKE A SYSTEM THAT MAKES SENCE TO YOU
     private void Start() {
+        if (!GameManager.Instance.State.Equals(GameState.Battle)) return;
         switch (weaponData.WeaponType) {
             case WeaponType.Single:
                 StartCoroutine(SpawnBulletsSingle());

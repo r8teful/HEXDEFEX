@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: WeaponBurst
   m_EditorClassIdentifier: 
   _stats:
-    fireRate: 0
+    fireRate: 1
     bulletDamage: 0
-    bulletSpeed: 0
+    bulletSpeed: 1
     bulletSize: 0
     defensePen: 0
     critRate: 0
@@ -27,4 +27,4 @@ MonoBehaviour:
     knockback: 0
   WeaponClass: 0
   WeaponType: 1
-  Prefab: {fileID: 0}
+  Prefab: {fileID: 5207814240611483619, guid: f8951d08374319347a39a333f4b4b860, type: 3}

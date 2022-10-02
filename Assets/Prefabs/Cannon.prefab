@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4066870420755394251
+--- !u!1 &6810428254987848640
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,37 +8,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4066870420755394246}
-  - component: {fileID: 4066870420755394249}
-  - component: {fileID: 4066870420755394248}
+  - component: {fileID: 6810428254987848642}
+  - component: {fileID: 6810428254987848643}
+  - component: {fileID: 6810428254987848645}
   m_Layer: 0
-  m_Name: GunBase
+  m_Name: Cannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4066870420755394246
+--- !u!4 &6810428254987848642
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4066870420755394251}
-  m_LocalRotation: {x: 0, y: 0, z: 0.5, w: 0.8660254}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.1, z: 1}
+  m_GameObject: {fileID: 6810428254987848640}
+  m_LocalRotation: {x: 0, y: 0, z: 0.092370614, w: 0.9957247}
+  m_LocalPosition: {x: 0, y: -5, z: 0}
+  m_LocalScale: {x: 0.3, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 60}
---- !u!212 &4066870420755394249
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 10.6}
+--- !u!212 &6810428254987848643
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4066870420755394251}
+  m_GameObject: {fileID: 6810428254987848640}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -84,17 +84,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4066870420755394248
+--- !u!114 &6810428254987848645
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4066870420755394251}
+  m_GameObject: {fileID: 6810428254987848640}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b6bc50bd60efec499e44caf051bae02, type: 3}
+  m_Script: {fileID: 11500000, guid: b93fe9cf9576f18479253c809d2532ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponData: {fileID: 11400000, guid: e320e2ba38b26d649a288969841860d6, type: 2}
-  bullet: {fileID: 6089950668900422762, guid: 266dc7ee74e95424d8b76c65b826c01e, type: 3}
+  enemy: {fileID: 7284594615961592190, guid: 60c3eb3f9ffac084e83787a993d44132, type: 3}
+  spawnDelay: 2
+  shootForce: 0.9
