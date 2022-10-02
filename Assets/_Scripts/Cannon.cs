@@ -5,8 +5,9 @@ using UnityEngine;
 public class Cannon : MonoBehaviour {
 
     [SerializeField] private GameObject enemy;
-    public float spawnDelay;
-    private Rigidbody2D rigid2D;
+    [SerializeField] private float spawnDelay;
+    [SerializeField] private float shootForce;
+   private Rigidbody2D rigid2D;
 
     void Start() {
        
@@ -18,7 +19,7 @@ public class Cannon : MonoBehaviour {
     private IEnumerator SpawnEnemy() {
         while (true) {
             GameObject localEnemy = Instantiate(enemy, transform.position, transform.rotation);
-            localEnemy.GetComponent<Rigidbody2D>().AddForce(transform.up, ForceMode2D.Impulse);
+            localEnemy.GetComponent<Rigidbody2D>().AddForce(transform.up*shootForce, ForceMode2D.Impulse);
 
             yield return new WaitForSeconds(spawnDelay);
         }

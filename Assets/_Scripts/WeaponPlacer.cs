@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // This script is used to place a gun type at one of the 6 different spots on the ship
-public class GunPlacer : MonoBehaviour {
+public class WeaponPlacer : MonoBehaviour {
     public GameObject[] GunSlots = new GameObject[6];
-    [SerializeField] GameObject Gun; 
-    public GameObject Gun1;
+    //[SerializeField] GameObject Gun; 
+    //public GameObject Gun1;
     // The different rotation and position the gun has to have depending on the slot
     private Vector2[] GunPositions = {new Vector2(0.3f,0.5f), new Vector2(0.6f,0), new Vector2(0.3f,-0.5f), 
                                      new Vector2(-0.3f,-0.5f), new Vector2(-0.6f,0), new Vector2(-0.3f,0.5f)};
@@ -17,14 +17,15 @@ public class GunPlacer : MonoBehaviour {
     private float[] GunRotationsFlatTop = { (0)  , (-60), (-120), (-180), (-240), (-300) };
 
     private void Start() {
-        
         for (int i = 0; i < 6; i++) {
             // Loop through the list of guns and place them in the right slots
             if (GunSlots[i]!=null) {
-                Instantiate(Gun, GunPositionsFlatTop[i], Quaternion.Euler(0, 0, GunRotationsFlatTop[i]), transform);
+                var gun = ResourceSystem.Instance.GetWeapon(WeaponType.Multi);
+                Instantiate(gun.Prefab, GunPositionsFlatTop[i], Quaternion.Euler(0, 0, GunRotationsFlatTop[i]), transform);
             } 
         }
     }
+   
     private void Update() {
        // Debug.Log(Quaternion.Euler(0, 0, gameObject.transform.rotation.z));
         //if (Input.GetKeyDown(KeyCode.Alpha1)) {

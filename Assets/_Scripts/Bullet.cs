@@ -4,14 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour {
-
-    public float speed;
-    [SerializeField] private Rigidbody2D rb;
-    
-
+    private Rigidbody2D rigid2D;
+    private WeaponScriptableObject myData;
     // Start is called before the first frame update
     void Start() {
-        rb.velocity = transform.up*speed;
+        rigid2D = GetComponent<Rigidbody2D>();
+        rigid2D.velocity = transform.up * myData.BaseStats.bulletSpeed;
         StartCoroutine(DestroyAfterSeconds());
     }
 
@@ -29,5 +27,9 @@ public class Bullet : MonoBehaviour {
             // Destroy bullet
             Destroy(gameObject);
         }
+    }
+
+    public void SetData(WeaponScriptableObject data) {
+        myData = data;
     }
 }

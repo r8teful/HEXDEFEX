@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4066870420755394249}
   - component: {fileID: 4066870420755394248}
   m_Layer: 0
-  m_Name: Gun
+  m_Name: GunBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4066870420755394251}
   m_LocalRotation: {x: 0, y: 0, z: -0.49999997, w: -0.8660254}
-  m_LocalPosition: {x: -0.6, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -96,6 +96,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b6bc50bd60efec499e44caf051bae02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gunDelay: 1
-  guntype: 2
+  weaponData: {fileID: 11400000, guid: e320e2ba38b26d649a288969841860d6, type: 2}
   bullet: {fileID: 6089950668900422762, guid: 266dc7ee74e95424d8b76c65b826c01e, type: 3}
