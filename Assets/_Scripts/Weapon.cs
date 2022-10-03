@@ -8,12 +8,30 @@ public class Weapon : MonoBehaviour {
     private readonly float burstDelay = 0.2f;
     //public WeaponType weaponType;
     [SerializeField] private WeaponScriptableObject weaponData;
-
     [SerializeField] private GameObject bullet;
     public Stats Stats { get; private set; }
-    // TODO TOMOROW. MAKE A SYSTEM THAT MAKES SENCE TO YOU
+
+    private void Awake() {
+        // Subscribe to GameState Event
+        GameManager.OnGameStateChanged += GameStateChanged;
+    }
+    private void OnDestroy() => GameManager.OnGameStateChanged -= GameStateChanged;
+
+
+    private void GameStateChanged(GameState t) {
+        if (t.Equals(GameState.Shop)) {
+            // Dont shoot guns in shop
+            StopAllCoroutines();
+        } else if (t.Equals(GameState.Battle)) {
+            StartShooting();
+        }
+    }
+
     private void Start() {
-        if (!GameManager.Instance.State.Equals(GameState.Battle)) return;
+        if (GameManager.Instance.State.Equals(GameState.Battle)) StartShooting();
+    }
+
+    private void StartShooting() {
         switch (weaponData.WeaponType) {
             case WeaponType.Single:
                 StartCoroutine(SpawnBulletsSingle());

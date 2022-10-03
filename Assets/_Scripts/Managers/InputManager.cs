@@ -3,21 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputManager : MonoBehaviour {
-    public static InputManager Instance;
+public class InputManager : StaticInstance<InputManager> {
     public static event Action<TouchPhase> OnTouchChanged; 
-    public Vector3 positionInitial;
+    public static event Action<GameObject> OnWeaponRelease; 
+    private Vector3 positionInitial;
     private Vector2 touchPosition;
-
-    private void Awake() {
-        Instance = this;
-    }
-    private void OnApplicationQuit() {
-        Instance = null;
-        Destroy(gameObject);
-    }
+    private GameObject sellected = null;
     private void Update() {
-
         if (Input.touchCount > 0) {
             Touch touch = Input.GetTouch(0);
             if (GameManager.Instance.State.Equals(GameState.Battle)) {
@@ -38,10 +30,35 @@ public class InputManager : MonoBehaviour {
                 }
             } else if (GameManager.Instance.State.Equals(GameState.Shop)) {
                 // Shop input logic, mostly UI and object moving
+
+                if (touch.phase == TouchPhase.Began) {
+                    touchPosition.Set(touch.position.x, touch.position.y);
+                    var worldTouchPos = Camera.main.ScreenToWorldPoint(touchPosition);
+                    var hitRay = Physics2D.Raycast(worldTouchPos, -Vector3.forward);
+                    if ((hitRay.collider != null) && hitRay.collider.gameObject.CompareTag("Weapon")) {
+                        // Event. Mainly for weaponManager and UI stuff
+                        sellected = hitRay.collider.gameObject;
+                    }
+                } else if ((sellected != null) && (touch.phase == TouchPhase.Moved)) {
+                    // A weapon is selected and we are moving
+                    touchPosition.Set(touch.position.x, touch.position.y);
+                    var toVec = new Vector3(Camera.main.ScreenToWorldPoint(touchPosition).x, Camera.main.ScreenToWorldPoint(touchPosition).y, 0);
+                    sellected.transform.position = Vector3.Slerp(sellected.transform.position, toVec, 40f * Time.deltaTime);
+                    // Rotates face to the middle. Based on a comment from a very generous person here:  http://answers.unity.com/comments/1482425/view.html 
+                    sellected.transform.up = Vector3.Slerp(sellected.transform.up, (-sellected.transform.position), 40f * Time.deltaTime);
+                } else if ((sellected != null) && (touch.phase == TouchPhase.Ended)) {
+                    // We released the selected weapon. Leave the rest of movement to the weaponmanager
+                    OnWeaponRelease?.Invoke(sellected);
+                    sellected = null;
+                }
             }
         }
     }
+
     public Vector2 GetTouchPosition() {
         return touchPosition;
+    }
+    public Vector3 GetPositionInitial() {
+        return positionInitial;
     }
 }
