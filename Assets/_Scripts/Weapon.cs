@@ -6,9 +6,12 @@ using UnityEngine;
 public class Weapon : MonoBehaviour {
     private readonly int burstAmount = 3;
     private readonly float burstDelay = 0.2f;
+    private int posPrefered;
     //public WeaponType weaponType;
     [SerializeField] private WeaponScriptableObject weaponData;
     [SerializeField] private GameObject bullet;
+    private bool sellected;
+
     public Stats Stats { get; private set; }
 
     private void Awake() {
@@ -22,6 +25,8 @@ public class Weapon : MonoBehaviour {
         if (t.Equals(GameState.Shop)) {
             // Dont shoot guns in shop
             StopAllCoroutines();
+            // But change weapon pos if it gets moved
+            StartCoroutine(MoveWeapon());
         } else if (t.Equals(GameState.Battle)) {
             StartShooting();
         }
@@ -29,6 +34,7 @@ public class Weapon : MonoBehaviour {
 
     private void Start() {
         if (GameManager.Instance.State.Equals(GameState.Battle)) StartShooting();
+        if (GameManager.Instance.State.Equals(GameState.Shop)) StartCoroutine(MoveWeapon());
     }
 
     private void StartShooting() {
@@ -85,6 +91,27 @@ public class Weapon : MonoBehaviour {
     }
     // -----------------Multi--------------------- // 
 
+
+    public IEnumerator MoveWeapon() {
+        // This function makes handles the movement of the weapons on the ship. Each weapon has its "desired" position, being the slot it is suposed to be in. This can be updated
+        // from other scripts depending on how the player moves them in the shop. 
+        while (true) {
+            if ((!sellected) && (transform.position != WeaponManager.Instance.weaponPos[posPrefered])) {
+                transform.position = Vector3.Slerp(transform.position, WeaponManager.Instance.weaponPos[posPrefered], 10f * Time.deltaTime);
+                transform.up = Vector3.Slerp(transform.up,transform.position, 40f * Time.deltaTime);
+            } else {
+                //yield break;
+            }
+            yield return null;
+        }
+    }
+
+    public void SetposPrefered(int value) {
+        posPrefered = value;
+    }
+    public void Setsellected(bool value) {
+        sellected = value;
+    }
 
     public virtual void SetStats(Stats stats) => Stats = stats;
 }

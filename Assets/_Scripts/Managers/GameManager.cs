@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : StaticInstance<GameManager> {
+    public static event Action<GameState> OnGameStateChangedBefore;
     public static event Action<GameState> OnGameStateChanged;
     public GameState State { get; private set; }
 
@@ -12,9 +13,11 @@ public class GameManager : StaticInstance<GameManager> {
         if (SceneOperator.Instance.GetSceneIndex()==0) ChangeState(GameState.Battle);
         if (SceneOperator.Instance.GetSceneIndex()==1) ChangeState(GameState.Shop);
     }
-    private void ChangeState(GameState state) {
+    public void ChangeState(GameState state) {
+
         State = state;
       
+        OnGameStateChangedBefore?.Invoke(state);
         switch (state) {
             case GameState.MainMenu:
                 // Start battle, settings etc
@@ -26,7 +29,7 @@ public class GameManager : StaticInstance<GameManager> {
                 break;
             case GameState.Shop:
                 // Shop logic
-
+                //WeaponManager.Instance.StartCoroutine("MoveWeapons");
                 //Go to next level
                 break;
             case GameState.EndMenu:

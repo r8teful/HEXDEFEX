@@ -14,14 +14,13 @@ public class SceneOperator : StaticInstance<SceneOperator> {
         GameManager.OnGameStateChanged -= ChangeScene;
     }
 
-    private void ChangeScene(GameState s) {
+    public void ChangeScene(GameState s) {
         if (s == GameState.Battle) {
             Debug.Log("Scene Change to Battle!");
             SceneManager.LoadScene(0);
         } else if (s == GameState.Shop) {
             Debug.Log("Scene Change To shop!");
             SceneManager.LoadScene(1);
-
         }
     }
     public int GetSceneIndex() {
