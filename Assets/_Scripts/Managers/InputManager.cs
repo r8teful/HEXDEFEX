@@ -6,9 +6,13 @@ using UnityEngine;
 public class InputManager : StaticInstance<InputManager> {
     public static event Action<TouchPhase> OnTouchChanged; 
     public static event Action<GameObject> OnWeaponRelease; 
+    public static event Action<GameObject> OnWeaponBuy; 
     private Vector3 positionInitial;
     private Vector2 touchPosition;
-    private GameObject sellected = null;
+    private bool canBuy;
+    private GameObject sellectedOnShip = null;
+    private GameObject sellectInShop = null;
+    private Vector3 shopPositionInitial;
     private void Update() {
         if (Input.touchCount > 0) {
             Touch touch = Input.GetTouch(0);
@@ -35,24 +39,55 @@ public class InputManager : StaticInstance<InputManager> {
                      var worldTouchPos = Camera.main.ScreenToWorldPoint(touchPosition);
                      var hitRay = Physics2D.Raycast(worldTouchPos, -Vector3.forward);
                      if ((hitRay.collider != null) && hitRay.collider.gameObject.CompareTag("Weapon")) {
-                         // Event. Mainly for weaponManager and UI stuff
-                         sellected = hitRay.collider.gameObject;
-                        sellected.GetComponent<Weapon>().Setsellected(true);
+                        // Hit a weapon with the mouse, check if its in the shop or on the gun. 
+                        if (hitRay.collider.gameObject.GetComponent<Weapon>().GetShipSlot() >= 0) {
+                            // Weapon is on ship, sellect the weapon and tell it that it has been sellected, so that it doesn't pull itself towards the ship
+                            sellectedOnShip = hitRay.collider.gameObject;
+                            sellectedOnShip.GetComponent<Weapon>().Setsellected(true);
+                        } else {
+                            // Weapon is in the shop and is sellected
+                            //sellectInShop = hitRay.collider.gameObject;
+                            sellectInShop = hitRay.collider.gameObject;
+                            //shopPositionInitial = sellectInShop.transform.position;
+
+                        }
                      }
-                 } else if ((sellected != null) && ((touch.phase == TouchPhase.Moved) || (touch.phase == TouchPhase.Stationary))) {
-                    // A weapon is selected and we are moving
-                    // Stop holding the weapon back
+                  ////////////////////////////////////////////////////
+                  /// I know it's a lot of else and if statements. The next two is only for when a weapon that is on the ship that is sellected
+                  /////////////////////////////////////////////////
+                 } else if ((sellectedOnShip != null) && ((touch.phase == TouchPhase.Moved) || (touch.phase == TouchPhase.Stationary))) {
+                    // A weapon on the ship is selected and we are moving our finger or holding it still
                     touchPosition.Set(touch.position.x, touch.position.y);
                     var toVec = new Vector3(Camera.main.ScreenToWorldPoint(touchPosition).x, Camera.main.ScreenToWorldPoint(touchPosition).y, 0);
-                    sellected.transform.position = Vector3.Slerp(sellected.transform.position, toVec, 40f * Time.deltaTime);
+                    sellectedOnShip.transform.position = Vector3.Slerp(sellectedOnShip.transform.position, toVec, 40f * Time.deltaTime);
                     // Rotates face to the middle. Based on a comment from a very generous person here:  http://answers.unity.com/comments/1482425/view.html 
-                    sellected.transform.up = Vector3.Slerp(sellected.transform.up, sellected.transform.position, 40f * Time.deltaTime);
-                 } else if ((sellected != null) && (touch.phase == TouchPhase.Ended)) {
+                    sellectedOnShip.transform.up = Vector3.Slerp(sellectedOnShip.transform.up, sellectedOnShip.transform.position, 40f * Time.deltaTime);
+                 } else if ((sellectedOnShip != null) && (touch.phase == TouchPhase.Ended)) {
                      // We released the selected weapon. Leave the rest of movement to the weaponmanager
-                     OnWeaponRelease?.Invoke(sellected);
-                     sellected.GetComponent<Weapon>().Setsellected(false);
-                     sellected = null;
-                 }
+                     OnWeaponRelease?.Invoke(sellectedOnShip);
+                    sellectedOnShip.GetComponent<Weapon>().Setsellected(false);
+                    sellectedOnShip = null;
+                ////////////////////////////////////////////////////////
+                /// Done checking for the weapon sellected if its on the ship, now check for the weapon sellected when it is in the shop
+                ////////////////////////////////////////////////////////
+                 } else if ((sellectInShop != null) && ((touch.phase == TouchPhase.Moved) || (touch.phase == TouchPhase.Stationary))) {
+                    // Only actually "purchase" the weapon if we cross the shop border to the ship
+                    touchPosition.Set(touch.position.x, touch.position.y);
+                    var toVec = new Vector3(Camera.main.ScreenToWorldPoint(touchPosition).x, Camera.main.ScreenToWorldPoint(touchPosition).y, 0);
+                    if(sellectInShop.transform.position.y > -0.5) {
+                        // IF WE RELEASE NOW, WE WILL BUY THIS WEAPON
+                        canBuy = true;
+                    }
+                    sellectInShop.transform.position = Vector3.Slerp(sellectInShop.transform.position, toVec, 40f * Time.deltaTime);
+                    // Keep the rotation on its slot in the shop, makes it looks nice. Only do this if we are stil inside the shop
+                    
+                    //sellectInShop.transform.up = Vector3.Slerp(sellectInShop.transform.up, shopPositionInitial - sellectInShop.transform.position, 40f * Time.deltaTime);
+                } else if ( canBuy && (sellectInShop != null) && (touch.phase == TouchPhase.Ended)) {
+                    // We dropped the sellected weapon out of the shop zone, BUY  IT 
+                    OnWeaponBuy?.Invoke(sellectInShop);
+                    canBuy = false;
+                    sellectInShop = null;
+                }
             }
         }
     }

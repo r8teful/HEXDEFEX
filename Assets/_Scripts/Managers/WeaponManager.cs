@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,33 +9,36 @@ using UnityEngine.SceneManagement;
 public class WeaponManager : StaticInstance<WeaponManager> {
 
     // The different rotation and position the gun has to have depending on the slot
-    // private Vector2[] GunPositions = {new Vector2(0.3f,0.5f), new Vector2(0.6f,0), new Vector2(0.3f,-0.5f), 
-    //new Vector2(-0.3f,-0.5f), new Vector2(-0.6f,0), new Vector2(-0.3f,0.5f)};
     public readonly Vector3[] weaponPos = { new Vector2(0f, 0.5f), new Vector2(0.433f, 0.25f), new Vector2(0.433f, -0.25f), new Vector2(-0.0f, -0.5f), new Vector2(-0.433f, -0.25f), new Vector2(-0.433f, 0.25f) };
-    private readonly float[] gunRotationsFlatTop = { (0), (-60), (-120), (-180), (-240), (-300) };
-    //private float[] GunRotations =          { (-30), (-90), (-150), (-210), (-270), (-330) };
+    private readonly float[] gunRotations = { (0), (-60), (-120), (-180), (-240), (-300) };
 
-    private GameObject[] weapons;
+    [SerializeField] private WeaponDataScriptableObject weaponDataHolder;
+    private WeaponScriptableObject[] weapons;
     private GameObject[] weaponClones;
     
     [SerializeField] private GameObject originalPlayer;
     private GameObject player;
-    private Quaternion prevRotation;
 
-    // Has to know when we go into shop so we can change the view
     protected override void Awake() {
         base.Awake();
-        weapons = new GameObject[6];
+        Debug.Log("awake is called on weaponmanager!");
+        weapons = weaponDataHolder.weaponsData;
         weaponClones = new GameObject[6];
-        WeaponEntry(0, WeaponType.Single);
-        WeaponEntry(2, WeaponType.Burst);
-        WeaponEntry(1, WeaponType.Multi);
         SceneManager.sceneLoaded += SceneDoneLoading;
         InputManager.OnWeaponRelease += WeaponRelease;
+        InputManager.OnWeaponBuy += WeaponBuy;
     }
     private void OnDestroy() {
         SceneManager.sceneLoaded -= SceneDoneLoading;
         InputManager.OnWeaponRelease -= WeaponRelease;
+        InputManager.OnWeaponBuy -= WeaponBuy;
+    }
+
+    private void Start() {
+        // Empy all data from the start of the game
+        for (int i = 0; i < 6; i++) {
+            weapons[i] = null;
+        }
     }
 
     private void SceneDoneLoading(Scene s, LoadSceneMode m) {
@@ -51,9 +53,31 @@ public class WeaponManager : StaticInstance<WeaponManager> {
         Vector2 pos = new Vector2(o.transform.position.x, o.transform.position.y);
         int indexTo = (int)GetClosestEdge(weaponPos, pos).z;
         // Smoothly move this object to the fixed slot. If there is already an object there, move that to the slot the object we want to move in
-        MoveWeaponClones(indexFrom, indexTo);
+       // MoveWeaponClones(indexFrom, indexTo);
         MoveWeaponData(indexFrom, indexTo);
     }
+
+    private void WeaponBuy(GameObject o) {
+        // YEY! You bought a weapon, how great. Let's see if there is space for it first
+        var emptySlots = 0;
+        for (int i = 0; i < weapons.Length; i++) {
+            if (weapons[i] == null) {
+                emptySlots++;
+            }
+        }
+        if (emptySlots == 0) ; // TODO DO SOMETHING DUHHH
+        // Okey there is a slot, phew! Now where did we release the weapon so we know where to put it on the ship
+        Vector2 pos = new Vector2(o.transform.position.x, o.transform.position.y);
+        int indexTo = (int)GetClosestEdge(weaponPos, pos).z;
+        // TODO BUG HERE PROBABLY, NOT GETTING RIGHT DATA SOMEHOW
+        var wd = IUManager.Instance.GetShopWeapon(o.GetComponent<Weapon>().GetShipSlot()); // We get weapon data from the IUManager
+        // Move it to the correct slot and add data ((:
+        weapons[indexTo] = wd; // We send it to the weapon[] array so that we can store the data in the right slot
+        weaponClones[indexTo] = o; // To keep track of the gameobjects that are spawned we store them in an array
+        o.GetComponent<Weapon>().SetShipSlot(indexTo); // Call methods on the actual gameobject
+        o.GetComponent<Weapon>().SetposPrefered(indexTo);
+    }
+
     // Maybe to do later, tried to make the rotation stay after a battle, but it will just be complicated with all the fixed rotation+position values
     //private void GameStateChanged(GameState s) {
     //    if(s==GameState.Shop) {
@@ -78,23 +102,46 @@ public class WeaponManager : StaticInstance<WeaponManager> {
         }
         return bestTarget;
     }
-    private void WeaponEntry(byte i, WeaponType t) {
+    private void WeaponEntryDirect(byte i, WeaponType t) {
         //  Should take data from array, not modify it
-        var gun = ResourceSystem.Instance.GetWeapon(t);
-        weapons[i] = gun.Prefab.gameObject;
+        weapons[i] = ResourceSystem.Instance.GetWeapon(t);
+       // weapons[i] = gun.Prefab.gameObject; // Reference to prefab 
     }
 
     private void InstantiateWeapons() {
         for (int i = 0; i < 6; i++) {
             if (weapons[i] != null) {
-                weaponClones[i] = Instantiate(weapons[i], weaponPos[i], Quaternion.Euler(0, 0, gunRotationsFlatTop[i] + player.transform.eulerAngles.z), player.transform);
-                weaponClones[i].GetComponent<Weapon>().SetposPrefered(i);
+                Instantiate(weapons[i].Prefab.gameObject, weaponPos[i], Quaternion.Euler(0, 0, gunRotations[i] + player.transform.eulerAngles.z), player.transform);
+                weapons[i].Prefab.gameObject.GetComponent<Weapon>().SetposPrefered(i);
             }
         }
     }
+ 
+    private void MoveWeaponData(int from, int to) {
+        // Moves a gun from from to to, if to is not empty spaw from and to 
+        MoveWeaponClones(from,to);
+        if (weapons[from] == null) {
+            Debug.Log($"returning: {from} is null");
+            return;
+        }
+        if (weapons[to] == null) {
+            // Just move
+            weapons[to] = weapons[from];
+            weapons[from] = null;
+            Debug.Log($"slot: {to} is null, moving {from} to this slot");
+        } else {
+            // Swap
+            var temp = weapons[from];
+            weapons[from] = weapons[to];
+            weapons[to] = temp;
+            Debug.Log($"Both slot {to} and slot {from} are full, swapping");
+        }
+    } 
     private void MoveWeaponClones(int from, int to) {
         // Moves a gun from from to to, if to is not empty spaw from and to 
-        if (weaponClones[from] == null) return;
+        if (weaponClones[from] == null) {
+            return;
+        }
         if (weaponClones[to] == null) {
             // Just move
             weaponClones[to] = weaponClones[from];
@@ -107,23 +154,6 @@ public class WeaponManager : StaticInstance<WeaponManager> {
             weaponClones[to] = temp;
             weaponClones[to].GetComponent<Weapon>().SetposPrefered(to);
             weaponClones[from].GetComponent<Weapon>().SetposPrefered(from);
-        }
-    } 
-    private void MoveWeaponData(int from, int to) {
-        // Moves a gun from from to to, if to is not empty spaw from and to 
-        if (weapons[from] == null) return;
-        if (weapons[to] == null) {
-            // Just move
-            weapons[to] = weapons[from];
-            weapons[from] = null;
-            weapons[to].GetComponent<Weapon>().SetposPrefered(to);
-        } else {
-            // Swap
-            var temp = weapons[from];
-            weapons[from] = weapons[to];
-            weapons[to] = temp;
-            weapons[to].GetComponent<Weapon>().SetposPrefered(to);
-            weapons[from].GetComponent<Weapon>().SetposPrefered(from);
         }
     }
 }

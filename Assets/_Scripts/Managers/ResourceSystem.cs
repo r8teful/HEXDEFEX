@@ -18,4 +18,7 @@ public class ResourceSystem : StaticInstance<ResourceSystem> {
     }
 
     public WeaponScriptableObject GetWeapon(WeaponType t) => _WeaponVariantDict[t];
+    
+    // Maybe change this at one point so the randomnes can be changed depending on some luck factor
+    public WeaponScriptableObject GetRandomWeapon() => WeaponVariant[Random.Range(0, WeaponVariant.Count)]; 
 }
