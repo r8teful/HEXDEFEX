@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WeaponSingle
   m_EditorClassIdentifier: 
   _stats:
-    fireRate: 10.43
+    fireRate: 10
     bulletDamage: 0
     bulletSpeed: 5
     bulletSize: 0
@@ -24,7 +24,8 @@ MonoBehaviour:
     aoeDamage: 0
     accurasy: 0
     range: 0
-    knockback: 0
+    knockback: 0.5
   WeaponClass: 0
   WeaponType: 0
   Prefab: {fileID: 4066870420755394248, guid: bfd003ae32527914a810311d4ecb1db0, type: 3}
+  SpecialBullet: {fileID: 0}

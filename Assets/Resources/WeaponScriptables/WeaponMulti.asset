@@ -24,7 +24,8 @@ MonoBehaviour:
     aoeDamage: 0
     accurasy: 0
     range: 0
-    knockback: 0
+    knockback: 0.5
   WeaponClass: 0
   WeaponType: 2
   Prefab: {fileID: 5207814240611483619, guid: 0471c881dec9a634c962435ac6240547, type: 3}
+  SpecialBullet: {fileID: 0}

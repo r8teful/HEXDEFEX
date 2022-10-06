@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Weapon : MonoBehaviour {
     private readonly int burstAmount = 3;
@@ -11,6 +13,7 @@ public class Weapon : MonoBehaviour {
     [SerializeField] private WeaponScriptableObject weaponData;
     [SerializeField] private GameObject bullet;
     private bool sellected;
+
     public Stats Stats { get; private set; }
 
     private void Awake() {
@@ -32,6 +35,7 @@ public class Weapon : MonoBehaviour {
     }
 
     private void Start() {
+
         if (GameManager.Instance.State.Equals(GameState.Battle)) StartShooting();
         if (GameManager.Instance.State.Equals(GameState.Shop)) StartCoroutine(MoveWeapon());
     }
@@ -46,6 +50,9 @@ public class Weapon : MonoBehaviour {
                 break;
             case WeaponType.Multi:
                 StartCoroutine(SpawnBulletsMulti());
+                break;
+            case WeaponType.Freezer:
+                StartCoroutine(SpawnBulletFreezer());
                 break;
             default:
                 throw new NotImplementedException();
@@ -89,6 +96,25 @@ public class Weapon : MonoBehaviour {
         }
     }
     // -----------------Multi--------------------- // 
+
+
+    // -----------------Freezer--------------------- // 
+    private IEnumerator SpawnBulletFreezer() {
+        while (true) {
+            // Random chanse that it will be a frozen bullet, could also make it not random ??
+            if(Random.Range(0,1)==0) { // Just shoot freeze bullet al the time now for debuggin 
+                var rbu = Instantiate(weaponData.SpecialBullet, transform.position, transform.rotation);
+                rbu.GetComponent<Bullet>().SetData(weaponData);
+                rbu.GetComponent<Bullet>().SetBulletType(BulletType.Freeze);
+            } else {
+                Debug.Log("PEW");
+                Instantiate(bullet, transform.position, transform.rotation).GetComponent<Bullet>().SetData(weaponData);
+            }
+            yield return new WaitForSeconds(1 / weaponData.BaseStats.fireRate);
+
+        }
+    }
+    // -----------------Freezer--------------------- // 
 
 
     public IEnumerator MoveWeapon() {

@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,7 +13,7 @@ public class WeaponManager : StaticInstance<WeaponManager> {
     [SerializeField] private WeaponDataScriptableObject weaponDataHolder;
     private WeaponScriptableObject[] weapons;
     private GameObject[] weaponClones;
-    
+
     [SerializeField] private GameObject originalPlayer;
     private GameObject player;
 
@@ -53,7 +51,7 @@ public class WeaponManager : StaticInstance<WeaponManager> {
         Vector2 pos = new Vector2(o.transform.position.x, o.transform.position.y);
         int indexTo = (int)GetClosestEdge(weaponPos, pos).z;
         // Smoothly move this object to the fixed slot. If there is already an object there, move that to the slot the object we want to move in
-       // MoveWeaponClones(indexFrom, indexTo);
+        // MoveWeaponClones(indexFrom, indexTo);
         MoveWeaponData(indexFrom, indexTo);
     }
 
@@ -104,7 +102,7 @@ public class WeaponManager : StaticInstance<WeaponManager> {
     private void WeaponEntryDirect(byte i, WeaponType t) {
         //  Should take data from array, not modify it
         weapons[i] = ResourceSystem.Instance.GetWeapon(t);
-       // weapons[i] = gun.Prefab.gameObject; // Reference to prefab 
+        // weapons[i] = gun.Prefab.gameObject; // Reference to prefab 
     }
 
     private void InstantiateWeapons() {
@@ -115,10 +113,10 @@ public class WeaponManager : StaticInstance<WeaponManager> {
             }
         }
     }
- 
+
     private void MoveWeaponData(int from, int to) {
         // Moves a gun from from to to, if to is not empty spaw from and to 
-        MoveWeaponClones(from,to);
+        MoveWeaponClones(from, to);
         if (weapons[from] == null) {
             Debug.Log($"returning: {from} is null");
             return;
@@ -135,7 +133,7 @@ public class WeaponManager : StaticInstance<WeaponManager> {
             weapons[to] = temp;
             Debug.Log($"Both slot {to} and slot {from} are full, swapping");
         }
-    } 
+    }
     private void MoveWeaponClones(int from, int to) {
         // Moves a gun from from to to, if to is not empty spaw from and to 
         if (weaponClones[from] == null) {

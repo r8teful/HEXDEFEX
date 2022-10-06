@@ -8,7 +8,8 @@ public class WeaponScriptableObject : ScriptableObject {
     public WeaponClass WeaponClass;
     public WeaponType WeaponType;
     public Weapon Prefab;
- }
+    public Bullet SpecialBullet; // Have one extra "Special" Bullet the gun can shoot, could be an explosion, freeze, homing etc. 
+}
 
 /* 
 * Fire Rate

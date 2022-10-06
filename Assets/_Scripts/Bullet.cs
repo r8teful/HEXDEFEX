@@ -6,7 +6,9 @@ using UnityEngine;
 public class Bullet : MonoBehaviour {
     private Rigidbody2D rigid2D;
     private WeaponScriptableObject myData;
-    // Start is called before the first frame update
+    private BulletType bulletType;
+
+
     void Start() {
         rigid2D = GetComponent<Rigidbody2D>();
         rigid2D.velocity = transform.up * myData.BaseStats.bulletSpeed;
@@ -21,9 +23,17 @@ public class Bullet : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.gameObject.CompareTag("Enemy")) {
+            var hitEnemy = collision.gameObject.GetComponent<Enemy>();
             // Destroy Enemy
             // TODO -- TAKE HEALTH INTO ACCOUNT ETC.
-            Destroy(collision.gameObject);
+            if (bulletType == BulletType.Freeze) {
+                Debug.Log("FREEZEE!!");
+                hitEnemy.Freeze(3.5f);
+            } else {
+                hitEnemy.AddKnockbackForce(myData.BaseStats.knockback,rigid2D.velocity.normalized);
+            }
+            
+            //Destroy(collision.gameObject);
             // Destroy bullet
             Destroy(gameObject);
         }
@@ -32,4 +42,18 @@ public class Bullet : MonoBehaviour {
     public void SetData(WeaponScriptableObject data) {
         myData = data;
     }
+    public void SetBulletType(BulletType type) {
+        Debug.Log($"I am a {type} bullet! ");
+        bulletType = type;
+    }
+}
+
+[Serializable]
+public enum BulletType {
+    Normal,
+    Freeze,
+    Exploding,
+    Homing,
+    Piercing,
+    Scatter
 }
