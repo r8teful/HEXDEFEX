@@ -49,9 +49,8 @@ public class IUManager : StaticInstance<IUManager> {
         // TODO make a shop item lockable, maybe even more shop slots? Reroll etc. 
         for (int i = 0; i < shopWeapons.Length; i++) { 
             shopWeapons[i] = ResourceSystem.Instance.GetRandomWeapon();
-            Instantiate(shopWeapons[i].Prefab.gameObject, shopPos[i], Quaternion.identity);
+            Instantiate(shopWeapons[i].Prefab.gameObject, shopPos[i], Quaternion.identity).GetComponent<Weapon>().SetShipSlot(i - 3);
             // Let the weapon instantiated know that its not cool and is only in the shop
-            shopWeapons[i].Prefab.gameObject.GetComponent<Weapon>().SetShipSlot(i-3);
         }
             shopItemName1.text = shopWeapons[0].WeaponType.ToString();
             shopItemName2.text = shopWeapons[1].WeaponType.ToString();

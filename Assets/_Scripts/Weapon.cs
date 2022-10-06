@@ -11,12 +11,13 @@ public class Weapon : MonoBehaviour {
     [SerializeField] private WeaponScriptableObject weaponData;
     [SerializeField] private GameObject bullet;
     private bool sellected;
-    private int shipSlot = -1;
+    private int shipSlot;
     public Stats Stats { get; private set; }
 
     private void Awake() {
         // Subscribe to GameState Event
         GameManager.OnGameStateChanged += GameStateChanged;
+        shipSlot = -1; 
     }
     private void OnDestroy() => GameManager.OnGameStateChanged -= GameStateChanged;
 
@@ -107,7 +108,7 @@ public class Weapon : MonoBehaviour {
     }
 
     public void SetposPrefered(int value) {
-        Debug.Log($"Setting prefered pos to: {value}");
+        //Debug.Log($"Setting prefered pos to: {value}");
         posPrefered = value;
     }
     public void Setsellected(bool value) {

@@ -111,8 +111,9 @@ public class WeaponManager : StaticInstance<WeaponManager> {
     private void InstantiateWeapons() {
         for (int i = 0; i < 6; i++) {
             if (weapons[i] != null) {
-                Instantiate(weapons[i].Prefab.gameObject, weaponPos[i], Quaternion.Euler(0, 0, gunRotations[i] + player.transform.eulerAngles.z), player.transform);
-                weapons[i].Prefab.gameObject.GetComponent<Weapon>().SetposPrefered(i);
+                weaponClones[i] = Instantiate(weapons[i].Prefab.gameObject, weaponPos[i], Quaternion.Euler(0, 0, gunRotations[i] + player.transform.eulerAngles.z), player.transform);
+                weaponClones[i].GetComponent<Weapon>().SetposPrefered(i);
+                weaponClones[i].GetComponent<Weapon>().SetShipSlot(i);
             }
         }
     }
