@@ -69,12 +69,11 @@ public class WeaponManager : StaticInstance<WeaponManager> {
         // Okey there is a slot, phew! Now where did we release the weapon so we know where to put it on the ship
         Vector2 pos = new Vector2(o.transform.position.x, o.transform.position.y);
         int indexTo = (int)GetClosestEdge(weaponPos, pos).z;
-        // TODO BUG HERE PROBABLY, NOT GETTING RIGHT DATA SOMEHOW
-        var wd = IUManager.Instance.GetShopWeapon(o.GetComponent<Weapon>().GetShipSlot()); // We get weapon data from the IUManager
+        var wd = IUManager.Instance.GetShopWeapon(o.GetComponent<Weapon>().GetPosPrefered()); // We get weapon data from the IUManager
         // Move it to the correct slot and add data ((:
         weapons[indexTo] = wd; // We send it to the weapon[] array so that we can store the data in the right slot
         weaponClones[indexTo] = o; // To keep track of the gameobjects that are spawned we store them in an array
-        o.GetComponent<Weapon>().SetShipSlot(indexTo); // Call methods on the actual gameobject
+        // Call methods on the actual gameobject
         o.GetComponent<Weapon>().SetposPrefered(indexTo);
     }
 
@@ -113,7 +112,6 @@ public class WeaponManager : StaticInstance<WeaponManager> {
             if (weapons[i] != null) {
                 weaponClones[i] = Instantiate(weapons[i].Prefab.gameObject, weaponPos[i], Quaternion.Euler(0, 0, gunRotations[i] + player.transform.eulerAngles.z), player.transform);
                 weaponClones[i].GetComponent<Weapon>().SetposPrefered(i);
-                weaponClones[i].GetComponent<Weapon>().SetShipSlot(i);
             }
         }
     }

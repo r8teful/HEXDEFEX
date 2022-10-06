@@ -15,7 +15,7 @@ MonoBehaviour:
   _stats:
     fireRate: 1
     bulletDamage: 0
-    bulletSpeed: 1
+    bulletSpeed: 4
     bulletSize: 0
     defensePen: 0
     critRate: 0

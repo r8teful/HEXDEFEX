@@ -5,19 +5,17 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour {
     private readonly int burstAmount = 3;
-    private readonly float burstDelay = 0.2f;
+    private readonly float burstDelay = 0.1f;
     private int posPrefered;
     //public WeaponType weaponType;
     [SerializeField] private WeaponScriptableObject weaponData;
     [SerializeField] private GameObject bullet;
     private bool sellected;
-    private int shipSlot;
     public Stats Stats { get; private set; }
 
     private void Awake() {
         // Subscribe to GameState Event
         GameManager.OnGameStateChanged += GameStateChanged;
-        shipSlot = -1; 
     }
     private void OnDestroy() => GameManager.OnGameStateChanged -= GameStateChanged;
 
@@ -97,7 +95,7 @@ public class Weapon : MonoBehaviour {
         // This function makes handles the movement of the weapons on the ship. Each weapon has its "desired" position, being the slot it is suposed to be in. This can be updated
         // from other scripts depending on how the player moves them in the shop. 
         while (true) {
-            if ( shipSlot >=0 && (!sellected) && (transform.position != WeaponManager.Instance.weaponPos[posPrefered])) {
+            if (posPrefered >= 0 && (!sellected) && (transform.position != WeaponManager.Instance.weaponPos[posPrefered])) {
                 transform.position = Vector3.Slerp(transform.position, WeaponManager.Instance.weaponPos[posPrefered], 10f * Time.deltaTime);
                 transform.up = Vector3.Slerp(transform.up,transform.position, 40f * Time.deltaTime);
             } else {
@@ -114,12 +112,9 @@ public class Weapon : MonoBehaviour {
     public void Setsellected(bool value) {
         sellected = value;
     }
-    public void SetShipSlot(int value) {
-        Debug.Log($"Setting ship pos to: {value}");
-        shipSlot = value; // Set to -1 if not on ship
-    }
-    public int GetShipSlot() {
-        return shipSlot;
+
+    public int GetPosPrefered() {
+        return posPrefered;
     }
     
 

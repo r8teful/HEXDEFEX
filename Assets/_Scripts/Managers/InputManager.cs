@@ -40,7 +40,7 @@ public class InputManager : StaticInstance<InputManager> {
                      var hitRay = Physics2D.Raycast(worldTouchPos, -Vector3.forward);
                      if ((hitRay.collider != null) && hitRay.collider.gameObject.CompareTag("Weapon")) {
                         // Hit a weapon with the mouse, check if its in the shop or on the gun. 
-                        if (hitRay.collider.gameObject.GetComponent<Weapon>().GetShipSlot() >= 0) {
+                        if (hitRay.collider.gameObject.GetComponent<Weapon>().GetPosPrefered() >= 0) {
                             // Weapon is on ship, sellect the weapon and tell it that it has been sellected, so that it doesn't pull itself towards the ship
                             sellectedOnShip = hitRay.collider.gameObject;
                             sellectedOnShip.GetComponent<Weapon>().Setsellected(true);
@@ -74,7 +74,7 @@ public class InputManager : StaticInstance<InputManager> {
                     // Only actually "purchase" the weapon if we cross the shop border to the ship
                     touchPosition.Set(touch.position.x, touch.position.y);
                     var toVec = new Vector3(Camera.main.ScreenToWorldPoint(touchPosition).x, Camera.main.ScreenToWorldPoint(touchPosition).y, 0);
-                    if(sellectInShop.transform.position.y > -0.5) {
+                    if(sellectInShop.transform.position.y > -0.75) {
                         // IF WE RELEASE NOW, WE WILL BUY THIS WEAPON
                         canBuy = true;
                     }

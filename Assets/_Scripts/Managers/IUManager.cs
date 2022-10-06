@@ -14,7 +14,7 @@ public class IUManager : StaticInstance<IUManager> {
     [SerializeField] private TMP_Text shopItemName2;
     [SerializeField] private TMP_Text shopItemName3;
     [SerializeField] private GameObject shopDisplayer;
-    private readonly Vector2[] shopPos = { new Vector2(-1, -1), new Vector2(0, -1), new Vector2(1, -1) }; 
+    private readonly Vector2[] shopPos = { new Vector2(-1, -2), new Vector2(0, -2), new Vector2(1, -2) }; 
     private WeaponScriptableObject[] shopWeapons;
 
     private void Start() {
@@ -49,7 +49,7 @@ public class IUManager : StaticInstance<IUManager> {
         // TODO make a shop item lockable, maybe even more shop slots? Reroll etc. 
         for (int i = 0; i < shopWeapons.Length; i++) { 
             shopWeapons[i] = ResourceSystem.Instance.GetRandomWeapon();
-            Instantiate(shopWeapons[i].Prefab.gameObject, shopPos[i], Quaternion.identity).GetComponent<Weapon>().SetShipSlot(i - 3);
+            Instantiate(shopWeapons[i].Prefab.gameObject, shopPos[i], Quaternion.identity).GetComponent<Weapon>().SetposPrefered(i - 3);
             // Let the weapon instantiated know that its not cool and is only in the shop
         }
             shopItemName1.text = shopWeapons[0].WeaponType.ToString();
