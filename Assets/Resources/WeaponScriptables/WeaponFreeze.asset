@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WeaponFreeze
   m_EditorClassIdentifier: 
   _stats:
-    fireRate: 4
+    fireRate: 3
     bulletDamage: 0
     bulletSpeed: 5
     bulletSize: 0
@@ -26,6 +26,7 @@ MonoBehaviour:
     range: 0
     knockback: 0.5
   WeaponClass: 0
-  WeaponType: 3
-  Prefab: {fileID: 4602863744973932740, guid: da812af1f77f7f046a69545d1d4a6283, type: 3}
+  WeaponName: 0
+  ShootMode: 2
+  Prefab: {fileID: 4040617854471804459, guid: da812af1f77f7f046a69545d1d4a6283, type: 3}
   SpecialBullet: {fileID: 214452562194876385, guid: 53d32df82562f0b4b84bca20194985e7, type: 3}

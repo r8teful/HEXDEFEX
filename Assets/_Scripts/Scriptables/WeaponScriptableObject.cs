@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using UnityEngine;
 
@@ -6,7 +7,8 @@ public class WeaponScriptableObject : ScriptableObject {
     [SerializeField] private Stats _stats;
     public Stats BaseStats => _stats; // We dont want to directly change the struct from code, so make a coppy which we will use to change to give buffs 
     public WeaponClass WeaponClass;
-    public WeaponType WeaponType;
+    public WeaponName WeaponName;
+    public ShootMode ShootMode;
     public Weapon Prefab;
     public Bullet SpecialBullet; // Have one extra "Special" Bullet the gun can shoot, could be an explosion, freeze, homing etc. 
 }
@@ -73,4 +75,22 @@ public enum WeaponClass {
     Dart,
     Healer,
     Heavy
+}
+
+[Serializable]
+public enum ShootMode {
+    Single,
+    Burst,
+    Tripple,
+    Quad,
+    Lazer
+}
+
+// We got to have a unique name so that the game knows what type of gun it is
+[Serializable]
+public enum WeaponName {
+    Single,
+    Burst,
+    Multi,
+    Freezer
 }

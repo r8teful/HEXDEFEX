@@ -94,11 +94,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4066870420755394251}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b6bc50bd60efec499e44caf051bae02, type: 3}
+  m_Script: {fileID: 11500000, guid: 25ea71a773ef5ab41bda826375ca0064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: e320e2ba38b26d649a288969841860d6, type: 2}
-  bullet: {fileID: 6089950668900422762, guid: 266dc7ee74e95424d8b76c65b826c01e, type: 3}
+  bulletDefault: {fileID: 6089950668900422762, guid: 266dc7ee74e95424d8b76c65b826c01e, type: 3}
 --- !u!61 &-6549160124817892104
 BoxCollider2D:
   m_ObjectHideFlags: 0

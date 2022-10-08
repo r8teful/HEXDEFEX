@@ -6,115 +6,39 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class Weapon : MonoBehaviour {
-    private readonly int burstAmount = 3;
-    private readonly float burstDelay = 0.1f;
-    private int posPrefered;
-    //public WeaponType weaponType;
-    [SerializeField] private WeaponScriptableObject weaponData;
-    [SerializeField] private GameObject bullet;
-    private bool sellected;
 
+    private protected int posPrefered;
+    //public WeaponType weaponType;
+    [SerializeField] private  protected WeaponScriptableObject weaponData;
+    [SerializeField] private protected GameObject bulletDefault; // protect: only classes that enherit can access
+    //public abstract void Shoot(Quaternion orientation);//abstract: Enherit class should implement it
+    private bool sellected;
     public Stats Stats { get; private set; }
 
-    private void Awake() {
+    private protected virtual void Awake() {
         // Subscribe to GameState Event
         GameManager.OnGameStateChanged += GameStateChanged;
+        ShootModeShooter sms = gameObject.AddComponent<ShootModeShooter>() as ShootModeShooter;
+        sms.ShootMode = weaponData.ShootMode;
+
     }
     private void OnDestroy() => GameManager.OnGameStateChanged -= GameStateChanged;
 
+    public virtual void Shoot(Quaternion orientation) { // Virtual: Can be overwritten in devired child classes
+        Instantiate(bulletDefault, transform.position, orientation).GetComponent<Bullet>().SetData(weaponData);
+    }
 
     private void GameStateChanged(GameState t) {
         if (t.Equals(GameState.Shop)) {
-            // Dont shoot guns in shop
-            StopAllCoroutines();
+            //StopAllCoroutines(); // Dont thing we need this weapons should already be in their positions
             // But change weapon pos if it gets moved
             StartCoroutine(MoveWeapon());
-        } else if (t.Equals(GameState.Battle)) {
-            StartShooting();
         }
     }
 
     private void Start() {
-
-        if (GameManager.Instance.State.Equals(GameState.Battle)) StartShooting();
         if (GameManager.Instance.State.Equals(GameState.Shop)) StartCoroutine(MoveWeapon());
     }
-
-    private void StartShooting() {
-        switch (weaponData.WeaponType) {
-            case WeaponType.Single:
-                StartCoroutine(SpawnBulletsSingle());
-                break;
-            case WeaponType.Burst:
-                StartCoroutine(SpawnBulletsBurst());
-                break;
-            case WeaponType.Multi:
-                StartCoroutine(SpawnBulletsMulti());
-                break;
-            case WeaponType.Freezer:
-                StartCoroutine(SpawnBulletFreezer());
-                break;
-            default:
-                throw new NotImplementedException();
-        }
-    }
-
-    // -----------------Single--------------------- //  
-    private IEnumerator SpawnBulletsSingle() {
-        while (true) {
-            Instantiate(bullet, transform.position, transform.rotation).GetComponent<Bullet>().SetData(weaponData);
-            yield return new WaitForSeconds(1/weaponData.BaseStats.fireRate);
-        }
-    }
-    // -----------------Single--------------------- // 
-
-    // -----------------Burst--------------------- // 
-    private IEnumerator SpawnBulletsBurst() {
-        while (true) {
-            StartCoroutine(ShootBurst());
-            yield return new WaitForSeconds(1/weaponData.BaseStats.fireRate);
-        }
-    }
-    private IEnumerator ShootBurst() {
-        for (int i = 0; i < burstAmount; i++) {
-            Instantiate(bullet, transform.position,transform.rotation).GetComponent<Bullet>().SetData(weaponData);
-            yield return new WaitForSeconds(burstDelay);
-        }
-    }
-    // -----------------Burst--------------------- // 
-
-
-    // -----------------Multi--------------------- // 
-    private IEnumerator SpawnBulletsMulti() {
-        while (true) {
-            var offsetLeft = Quaternion.Euler(0,0,transform.rotation.eulerAngles.z - 30);
-            var offsetRight = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z + 30);
-            Instantiate(bullet, transform.position,transform.rotation).GetComponent<Bullet>().SetData(weaponData);
-            Instantiate(bullet, transform.position,offsetLeft).GetComponent<Bullet>().SetData(weaponData);
-            Instantiate(bullet, transform.position,offsetRight).GetComponent<Bullet>().SetData(weaponData);
-            yield return new WaitForSeconds(1/ weaponData.BaseStats.fireRate);
-        }
-    }
-    // -----------------Multi--------------------- // 
-
-
-    // -----------------Freezer--------------------- // 
-    private IEnumerator SpawnBulletFreezer() {
-        while (true) {
-            // Random chanse that it will be a frozen bullet, could also make it not random ??
-            if(Random.Range(0,1)==0) { // Just shoot freeze bullet al the time now for debuggin 
-                var rbu = Instantiate(weaponData.SpecialBullet, transform.position, transform.rotation);
-                rbu.GetComponent<Bullet>().SetData(weaponData);
-                rbu.GetComponent<Bullet>().SetBulletType(BulletType.Freeze);
-            } else {
-                Debug.Log("PEW");
-                Instantiate(bullet, transform.position, transform.rotation).GetComponent<Bullet>().SetData(weaponData);
-            }
-            yield return new WaitForSeconds(1 / weaponData.BaseStats.fireRate);
-
-        }
-    }
-    // -----------------Freezer--------------------- // 
 
 
     public IEnumerator MoveWeapon() {
@@ -142,7 +66,9 @@ public class Weapon : MonoBehaviour {
     public int GetPosPrefered() {
         return posPrefered;
     }
-    
+    public WeaponScriptableObject GetWeaponData() {
+        return weaponData;
+    }
 
     public virtual void SetStats(Stats stats) => Stats = stats;
 }

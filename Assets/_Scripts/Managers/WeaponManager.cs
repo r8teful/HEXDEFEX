@@ -99,7 +99,7 @@ public class WeaponManager : StaticInstance<WeaponManager> {
         }
         return bestTarget;
     }
-    private void WeaponEntryDirect(byte i, WeaponType t) {
+    private void WeaponEntryDirect(byte i, WeaponName t) {
         //  Should take data from array, not modify it
         weapons[i] = ResourceSystem.Instance.GetWeapon(t);
         // weapons[i] = gun.Prefab.gameObject; // Reference to prefab 

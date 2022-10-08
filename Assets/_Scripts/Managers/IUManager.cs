@@ -52,9 +52,9 @@ public class IUManager : StaticInstance<IUManager> {
             Instantiate(shopWeapons[i].Prefab.gameObject, shopPos[i], Quaternion.identity).GetComponent<Weapon>().SetposPrefered(i - 3);
             // Let the weapon instantiated know that its not cool and is only in the shop
         }
-            shopItemName1.text = shopWeapons[0].WeaponType.ToString();
-            shopItemName2.text = shopWeapons[1].WeaponType.ToString();
-            shopItemName3.text = shopWeapons[2].WeaponType.ToString();
+            shopItemName1.text = shopWeapons[0].WeaponName.ToString();
+            shopItemName2.text = shopWeapons[1].WeaponName.ToString();
+            shopItemName3.text = shopWeapons[2].WeaponName.ToString();
         // TODO Make more information available
     }
 
