@@ -20,8 +20,7 @@ public class Bullet : MonoBehaviour {
         yield return new WaitForSeconds(3);
         Destroy(gameObject);
     }
-
-    private void OnTriggerEnter2D(Collider2D collision) {
+    private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.CompareTag("Enemy")) {
             var hitEnemy = collision.gameObject.GetComponent<Enemy>();
             // Destroy Enemy
@@ -30,11 +29,11 @@ public class Bullet : MonoBehaviour {
                 Debug.Log("FREEZEE!!");
                 hitEnemy.Freeze(3.5f);
             } else {
-                hitEnemy.AddKnockbackForce(myData.BaseStats.knockback,rigid2D.velocity.normalized);
+                hitEnemy.AddKnockbackForce(myData.BaseStats.knockback, rigid2D.velocity.normalized);
             }
-            
-            //Destroy(collision.gameObject);
-            // Destroy bullet
+
+            Destroy(collision.gameObject);
+            Destroy(this);
             Destroy(gameObject);
         }
     }
@@ -43,7 +42,6 @@ public class Bullet : MonoBehaviour {
         myData = data;
     }
     public void SetBulletType(BulletType type) {
-        Debug.Log($"I am a {type} bullet! ");
         bulletType = type;
     }
 }

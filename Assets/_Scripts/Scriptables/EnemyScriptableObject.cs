@@ -4,6 +4,7 @@ using UnityEngine;
 public class EnemyScriptableObject : ScriptableObject {
 
     public float pullSpeed; // speed at wish the enemy will be pulled towards the centre
+    public float maxSpeed;
     public float health; // Health of the enemy
     public float damage; // Damage it will do to the ship
 }

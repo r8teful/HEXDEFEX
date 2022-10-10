@@ -14,7 +14,7 @@ public class Cannon : MonoBehaviour {
     }
     private IEnumerator SpawnEnemy() {
         while (true) {
-            GameObject localEnemy = Instantiate(enemy, transform.position, transform.rotation);
+            GameObject localEnemy = Instantiate(enemy, transform.parent.position, transform.rotation);
             localEnemy.GetComponent<Rigidbody2D>().AddForce(transform.up*shootForce, ForceMode2D.Impulse);
             yield return new WaitForSeconds(spawnDelay);
         }
