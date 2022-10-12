@@ -25,6 +25,7 @@ public class Bullet : MonoBehaviour {
             var hitEnemy = collision.gameObject.GetComponent<Enemy>();
             // Destroy Enemy
             // TODO -- TAKE HEALTH INTO ACCOUNT ETC.
+            hitEnemy.Hit(myData.BaseStats.bulletDamage);
             if (bulletType == BulletType.Freeze) {
                 Debug.Log("FREEZEE!!");
                 hitEnemy.Freeze(3.5f);
@@ -32,8 +33,8 @@ public class Bullet : MonoBehaviour {
                 hitEnemy.AddKnockbackForce(myData.BaseStats.knockback, rigid2D.velocity.normalized);
             }
 
-            Destroy(collision.gameObject);
-            Destroy(this);
+            //Destroy(collision.gameObject);
+            //Destroy(this);
             Destroy(gameObject);
         }
     }
@@ -53,5 +54,6 @@ public enum BulletType {
     Exploding,
     Homing,
     Piercing,
-    Scatter
+    Scatter,
+    Knockback
 }

@@ -92,5 +92,6 @@ public enum WeaponName {
     Single,
     Burst,
     Multi,
-    Freezer
+    Freezer,
+    Knockback
 }

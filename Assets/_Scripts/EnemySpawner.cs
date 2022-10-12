@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 public class EnemySpawner : MonoBehaviour {
     public float spawnDelay;
     private int spawnAngle;
-    [SerializeField] private CircleCollider2D spawnCircle;
+    [SerializeField] private CircleCollider2D spawnCircle; // TODO this should just be a radius depending on the screensize
     [SerializeField] private UnityEngine.Object enemy;
     private void Start() {
         StartCoroutine(SpawnEnemy());
