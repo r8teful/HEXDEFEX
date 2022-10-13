@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: WeaponKnock
   m_EditorClassIdentifier: 
   _stats:
-    fireRate: 0
-    bulletDamage: 0
-    bulletSpeed: 0
+    fireRate: 9
+    bulletDamage: 50
+    bulletSpeed: 3
     bulletSize: 0
     defensePen: 0
     critRate: 0
@@ -24,9 +24,9 @@ MonoBehaviour:
     aoeDamage: 0
     accurasy: 0
     range: 0
-    knockback: 0
+    knockback: 1
   WeaponClass: 0
-  WeaponName: 0
+  WeaponName: 4
   ShootMode: 0
-  Prefab: {fileID: 0}
-  SpecialBullet: {fileID: 0}
+  Prefab: {fileID: 4932741348345043992, guid: 3e15d94f9c5c6e748b6f08faf46747a9, type: 3}
+  SpecialBullet: {fileID: 6534905698257273422, guid: 36bafbb8d0be5514fbd397d59d13170b, type: 3}

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stats:
     fireRate: 1
-    bulletDamage: 0
+    bulletDamage: 50
     bulletSpeed: 4
     bulletSize: 0
     defensePen: 0

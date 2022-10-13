@@ -71,6 +71,7 @@ public class ShootModeShooter : MonoBehaviour {
 
     private IEnumerator SpawnBulletsMulti() {
         while (true) {
+            // BEware bullets will collide with eachother because they get spawned in the same spot (:
             thisWeapon.Shoot(gameObject.transform.rotation);
             thisWeapon.Shoot(Quaternion.Euler(0, 0, gameObject.transform.rotation.eulerAngles.z - 30)); // Offset left
             thisWeapon.Shoot(Quaternion.Euler(0, 0, gameObject.transform.rotation.eulerAngles.z + 30)); // Offset right

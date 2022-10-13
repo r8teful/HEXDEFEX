@@ -15,7 +15,6 @@ public class Enemy : MonoBehaviour {
         myHP = enemyData.health;
     }
 
-
     private void OnDrawGizmos() {
         Gizmos.DrawLine(transform.position, Vector3.zero);
     }
@@ -23,7 +22,6 @@ public class Enemy : MonoBehaviour {
     public void AddKnockbackForce(float force, Vector2 direction) {
         // Meh IDK if I like this, but it works?
         rigid2D.AddForce(force * direction, ForceMode2D.Impulse);
-        Debug.Log($"Applying {force * 0.01f * direction} much force");
     }
 
     public void Freeze(float seconds) {
@@ -48,8 +46,8 @@ public class Enemy : MonoBehaviour {
     }
     public void Hit(float dmg) {
         myHP -= dmg;
-        Debug.Log($"I got hit! Took {dmg} damage and current HP is now {myHP}!");
-        if (myHP < 0) {
+        //Debug.Log($"I got hit! Took {dmg} damage and current HP is now {myHP}!");
+        if (myHP <= 0) {
             Destroy(gameObject);
         }
     }

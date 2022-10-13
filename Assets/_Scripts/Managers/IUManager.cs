@@ -29,6 +29,8 @@ public class IUManager : StaticInstance<IUManager> {
 
     private void SceneDoneLoading(Scene arg0, LoadSceneMode arg1) {
         if (GameManager.Instance.State.Equals(GameState.Shop)) {
+            Debug.Log("ScenedoneLoading");
+            gameObject.GetComponent<Canvas>().worldCamera = FindObjectOfType<Camera>();
             PopulateShop();
             shopDisplayer.SetActive(true);
         }
