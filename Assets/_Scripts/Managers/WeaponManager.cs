@@ -67,7 +67,7 @@ public class WeaponManager : StaticInstance<WeaponManager> {
         // Okey there is a slot, phew! Now where did we release the weapon so we know where to put it on the ship
         Vector2 pos = new Vector2(o.transform.position.x, o.transform.position.y);
         int indexTo = (int)GetClosestEdge(weaponPos, pos).z;
-        var wd = IUManager.Instance.GetShopWeapon(o.GetComponent<Weapon>().GetPosPrefered()); // We get weapon data from the IUManager
+        var wd = IUManagerScreen.Instance.GetShopWeapon(o.GetComponent<Weapon>().GetPosPrefered()); // We get weapon data from the IUManager
         // Move it to the correct slot and add data ((:
         weapons[indexTo] = wd; // We send it to the weapon[] array so that we can store the data in the right slot
         weaponClones[indexTo] = o; // To keep track of the gameobjects that are spawned we store them in an array

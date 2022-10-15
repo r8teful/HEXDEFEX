@@ -6,17 +6,30 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-public class IUManager : StaticInstance<IUManager> {
+public class IUManagerScreen : StaticInstance<IUManagerScreen> {
     // Reference IU elements here
-    [SerializeField] private Button battleButton;
-    [SerializeField] private Button ShopButton;
+
     [SerializeField] private TMP_Text shopItemName1;
     [SerializeField] private TMP_Text shopItemName2;
     [SerializeField] private TMP_Text shopItemName3;
     [SerializeField] private GameObject shopDisplayer;
     private readonly Vector2[] shopPos = { new Vector2(-1, -2), new Vector2(0, -2), new Vector2(1, -2) }; 
     private WeaponScriptableObject[] shopWeapons;
+    [SerializeField] private Button battleButton;
+    [SerializeField] private Button ShopButton;
 
+    private void BattleClick()
+    {
+        if (GameManager.Instance.State.Equals(GameState.Battle)) return;
+        // Maybe should be doing an event here??? IDK this seems to work just fine, we will always have a gamemanager anyway
+        GameManager.Instance.ChangeState(GameState.Battle);
+    }
+
+    private void ShopClick()
+    {
+        if (GameManager.Instance.State.Equals(GameState.Shop)) return;
+        GameManager.Instance.ChangeState(GameState.Shop);
+    }
     private void Start() {
         SceneManager.sceneLoaded += SceneDoneLoading;
         shopWeapons = new WeaponScriptableObject[3];
@@ -28,28 +41,21 @@ public class IUManager : StaticInstance<IUManager> {
     }
 
     private void SceneDoneLoading(Scene arg0, LoadSceneMode arg1) {
+        // TODO Maybe some nice transition where the shop fades in?
         if (GameManager.Instance.State.Equals(GameState.Shop)) {
-            Debug.Log("ScenedoneLoading");
             gameObject.GetComponent<Canvas>().worldCamera = FindObjectOfType<Camera>();
             PopulateShop();
             shopDisplayer.SetActive(true);
+        } else
+        {
+            shopDisplayer.SetActive(false);
         }
     }
 
-    private void BattleClick() {
-        if (GameManager.Instance.State.Equals(GameState.Battle)) return;
-        // Maybe should be doing an event here??? IDK this seems to work just fine, we will always have a gamemanager anyway
-        GameManager.Instance.ChangeState(GameState.Battle);
-    }  
-    
-    private void ShopClick() {
-        if (GameManager.Instance.State.Equals(GameState.Shop)) return;
-        GameManager.Instance.ChangeState(GameState.Shop);
-    }
 
     private void PopulateShop() {
         // TODO make a shop item lockable, maybe even more shop slots? Reroll etc. 
-        for (int i = 0; i < shopWeapons.Length; i++) { 
+        for (int i = 0; i < shopWeapons.Length; i++) {
             shopWeapons[i] = ResourceSystem.Instance.GetRandomWeapon();
             Instantiate(shopWeapons[i].Prefab.gameObject, shopPos[i], Quaternion.identity).GetComponent<Weapon>().SetposPrefered(i - 3);
             // Let the weapon instantiated know that its not cool and is only in the shop
