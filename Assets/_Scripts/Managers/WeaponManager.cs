@@ -63,15 +63,38 @@ public class WeaponManager : StaticInstance<WeaponManager> {
                 emptySlots++;
             }
         }
-        if (emptySlots == 0) ; // TODO DO SOMETHING DUHHH
+        if (emptySlots == 0) {
+            // TODO ABORT
+            Debug.Log("ABORT. No space for weapon");
+        }
+
+
         // Okey there is a slot, phew! Now where did we release the weapon so we know where to put it on the ship
         Vector2 pos = new Vector2(o.transform.position.x, o.transform.position.y);
         int indexTo = (int)GetClosestEdge(weaponPos, pos).z;
         var wd = IUManagerScreen.Instance.GetShopWeapon(o.GetComponent<Weapon>().GetPosPrefered()); // We get weapon data from the IUManager
-        // Move it to the correct slot and add data ((:
+        
+        // Check if there is already a weapon in the slot we want to buy a weapon to
+        if (weapons[indexTo] != null) {
+            // There is a weapon in the slot, we need to move it to an empty slot
+            var indexFrom = Array.IndexOf(weapons, weapons[indexTo]);
+            // Find an empty slot
+            for (int i = 0; i < weapons.Length; i++) {
+                if (weapons[i] == null) {
+                    MoveWeaponData(indexFrom, i);
+                    break;
+                }
+            }
+            // Add the data
+          //  weapons[indexTo] = wd;
+            //MoveWeaponData(indexFrom, 6); // 6 is the empty slot
+       // } else {
+            // Move it to the correct slot and add data
+            
+        }
         weapons[indexTo] = wd; // We send it to the weapon[] array so that we can store the data in the right slot
         weaponClones[indexTo] = o; // To keep track of the gameobjects that are spawned we store them in an array
-        // Call methods on the actual gameobject
+                                   // Call methods on the actual gameobject
         o.GetComponent<Weapon>().SetposPrefered(indexTo);
     }
 

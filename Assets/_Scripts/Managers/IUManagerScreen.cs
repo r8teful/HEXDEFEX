@@ -5,7 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
+// Manages UI elements on the screen
+// Also manages the weapons in the shop
 public class IUManagerScreen : StaticInstance<IUManagerScreen> {
     // Reference IU elements here
 
@@ -13,7 +16,7 @@ public class IUManagerScreen : StaticInstance<IUManagerScreen> {
     [SerializeField] private TMP_Text shopItemName2;
     [SerializeField] private TMP_Text shopItemName3;
     [SerializeField] private GameObject shopDisplayer;
-    private readonly Vector2[] shopPos = { new Vector2(-1, -2), new Vector2(0, -2), new Vector2(1, -2) }; 
+    public readonly Vector3[] shopPos = { new Vector2(-1, -2), new Vector2(0, -2), new Vector2(1, -2) }; 
     private WeaponScriptableObject[] shopWeapons;
     [SerializeField] private Button battleButton;
     [SerializeField] private Button ShopButton;
@@ -58,13 +61,14 @@ public class IUManagerScreen : StaticInstance<IUManagerScreen> {
         for (int i = 0; i < shopWeapons.Length; i++) {
             shopWeapons[i] = ResourceSystem.Instance.GetRandomWeapon();
             Instantiate(shopWeapons[i].Prefab.gameObject, shopPos[i], Quaternion.identity).GetComponent<Weapon>().SetposPrefered(i - 3);
-            // Let the weapon instantiated know that its not cool and is only in the shop
+            // Let the weapon instantiated know that its not cool and is only in the shop -3, -2, -1 are shop slots
         }
             shopItemName1.text = shopWeapons[0].WeaponName.ToString();
             shopItemName2.text = shopWeapons[1].WeaponName.ToString();
             shopItemName3.text = shopWeapons[2].WeaponName.ToString();
         // TODO Make more information available
     }
+
 
     public WeaponScriptableObject GetShopWeapon(int index) {
         return shopWeapons[index+3];

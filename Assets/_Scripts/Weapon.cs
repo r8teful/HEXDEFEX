@@ -46,10 +46,13 @@ public class Weapon : MonoBehaviour {
         // from other scripts depending on how the player moves them in the shop. 
         while (true) {
             if (posPrefered >= 0 && (!sellected) && (transform.position != WeaponManager.Instance.weaponPos[posPrefered])) {
+                // Weapon is on ship and still not on prefered position
                 transform.position = Vector3.Slerp(transform.position, WeaponManager.Instance.weaponPos[posPrefered], 10f * Time.deltaTime);
                 transform.up = Vector3.Slerp(transform.up,transform.position, 40f * Time.deltaTime);
-            } else {
-                //yield break;
+            } else if ((posPrefered >= -3 && posPrefered < 0) && (!sellected) && (transform.position != IUManagerScreen.Instance.shopPos[posPrefered + 3])) {
+                // Weapon is in shop and not in prefered position
+                transform.position = Vector3.Slerp(transform.position, IUManagerScreen.Instance.shopPos[posPrefered+3], 10f * Time.deltaTime);
+               // transform.up = Vector3.Slerp(transform.up, transform.position, 40f * Time.deltaTime);
             }
             yield return null;
         }
