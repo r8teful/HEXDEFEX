@@ -51,4 +51,8 @@ public class Enemy : MonoBehaviour {
             Destroy(gameObject);
         }
     }
+
+    public int GetEnemyCost() {
+        return enemyData.cost;
+    }
 }

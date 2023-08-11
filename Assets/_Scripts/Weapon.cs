@@ -9,7 +9,7 @@ public class Weapon : MonoBehaviour {
 
     private protected int posPrefered;
     //public WeaponType weaponType;
-    [SerializeField] private  protected WeaponScriptableObject weaponData;
+    [SerializeField] private protected WeaponScriptableObject weaponData;
     [SerializeField] private protected GameObject bulletDefault; // protect: only classes that enherit can access
     //public abstract void Shoot(Quaternion orientation);//abstract: Enherit class should implement it
     private bool sellected;
@@ -19,7 +19,7 @@ public class Weapon : MonoBehaviour {
         // Subscribe to GameState Event
         GameManager.OnGameStateChanged += GameStateChanged;
         ShootModeShooter sms = gameObject.AddComponent<ShootModeShooter>() as ShootModeShooter;
-        sms.ShootMode = weaponData.ShootMode;
+        sms.ShootMode = weaponData.shootMode;
 
     }
     private void OnDestroy() => GameManager.OnGameStateChanged -= GameStateChanged;

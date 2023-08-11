@@ -25,8 +25,8 @@ MonoBehaviour:
     accurasy: 0
     range: 0
     knockback: 0.5
-  WeaponClass: 0
-  WeaponName: 3
-  ShootMode: 2
-  Prefab: {fileID: 4040617854471804459, guid: da812af1f77f7f046a69545d1d4a6283, type: 3}
-  SpecialBullet: {fileID: 214452562194876385, guid: 53d32df82562f0b4b84bca20194985e7, type: 3}
+  weaponClass: 0
+  weaponName: 3
+  shootMode: 0
+  prefab: {fileID: 4040617854471804459, guid: da812af1f77f7f046a69545d1d4a6283, type: 3}
+  specialBullet: {fileID: 214452562194876385, guid: 53d32df82562f0b4b84bca20194985e7, type: 3}

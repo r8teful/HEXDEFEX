@@ -32,6 +32,7 @@ Transform:
   - {fileID: 339164400287792584}
   - {fileID: 3282624418846319423}
   - {fileID: 3996035572152912471}
+  - {fileID: 1948044428221722755}
   - {fileID: 6322826634772851866}
   - {fileID: 8858714863671858079}
   - {fileID: 1064290062121997730}
@@ -67,7 +68,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1371312253876496124}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5905597534570620940
 MonoBehaviour:
@@ -212,6 +213,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6a27c8685a46484a816b9232e5b85be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &7210596591898467936
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1948044428221722755}
+  - component: {fileID: 7042838679040647550}
+  m_Layer: 0
+  m_Name: WaveManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1948044428221722755
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7210596591898467936}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1371312253876496124}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7042838679040647550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7210596591898467936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43a12720e3413254f9d78f4f48377596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7976084214860119845
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,7 +355,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5258853578634635721, guid: aed783a4117dba345af4b7acb4f5ba98, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5258853578634635721, guid: aed783a4117dba345af4b7acb4f5ba98, type: 3}
       propertyPath: m_LocalPosition.x
@@ -401,7 +445,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3771565688758498853, guid: 70b29a1292674e14e89fa3d0082be3aa, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3771565688758498853, guid: 70b29a1292674e14e89fa3d0082be3aa, type: 3}
       propertyPath: m_AnchorMax.x

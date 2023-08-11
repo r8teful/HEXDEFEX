@@ -31,20 +31,20 @@ public class CameraController : StaticInstance<CameraController> {
         cameraSize = thisCamera.orthographicSize;
         cameraPosition = thisCamera.transform.position;
         Debug.Log($"CameraSize is equal to: {cameraSize} and cameraPos is {cameraPosition}");
-        SceneManager.sceneLoaded += SceneChanged;
+        GameManager.OnGameStateChanged += GameStateChanged;
     }
 
-    private void SceneChanged(Scene arg0, LoadSceneMode arg1) {
+    private void GameStateChanged(GameState t) {
         StopAllCoroutines();
         thisCamera = FindObjectOfType<Camera>();
         thisCamera.transform.position = cameraPosition;
         thisCamera.orthographicSize = cameraSize;
-        if (GameManager.Instance.State.Equals(GameState.Shop)) {
+        if (t.Equals(GameState.Shop)) {
             // Put camera in shop view
             cameraSize = sizeShop;
             cameraPosition = new Vector3(0, -0.75f, -10);
             StartCoroutine(MoveCamera(sizeShop, new Vector3(0, -0.75f, -10)));
-        } else if (GameManager.Instance.State.Equals(GameState.Battle)) {
+        } else if (t.Equals(GameState.Battle)) {
             // First put the camera in the position it whas when we are in the shop, this is because it gets instatiated at 0,0,-10 at the start of each scene
             cameraSize = sizeBattle;
             cameraPosition = new Vector3(0, 0, -10);
@@ -54,7 +54,8 @@ public class CameraController : StaticInstance<CameraController> {
     
     }
     private void OnDestroy() {
-        SceneManager.sceneLoaded -= SceneChanged;
+        //SceneManager.sceneLoaded -= GameStateChanged;
+        GameManager.OnGameStateChanged -= GameStateChanged;
     }
 
     private IEnumerator MoveCamera(float size, Vector3 pos) {

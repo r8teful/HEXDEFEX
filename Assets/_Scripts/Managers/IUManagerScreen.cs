@@ -25,32 +25,36 @@ public class IUManagerScreen : StaticInstance<IUManagerScreen> {
     {
         if (GameManager.Instance.State.Equals(GameState.Battle)) return;
         // Maybe should be doing an event here??? IDK this seems to work just fine, we will always have a gamemanager anyway
-        GameManager.Instance.ChangeState(GameState.Battle);
+        //GameManager.Instance.ChangeState(GameState.Battle);
+        GameManager.Instance.ChangeState(GameState.Loading);
+        SceneOperator.Instance.ChangeScene(GameState.Battle);
     }
 
     private void ShopClick()
     {
         if (GameManager.Instance.State.Equals(GameState.Shop)) return;
-        GameManager.Instance.ChangeState(GameState.Shop);
+        //GameManager.Instance.ChangeState(GameState.Shop);
+        GameManager.Instance.ChangeState(GameState.Loading); 
+        SceneOperator.Instance.ChangeScene(GameState.Shop);
     }
-    private void Start() {
-        SceneManager.sceneLoaded += SceneDoneLoading;
+    protected override void Awake() {
+        base.Awake();
+        GameManager.OnGameStateChanged += ChangeState;
         shopWeapons = new WeaponScriptableObject[3];
         battleButton.onClick.AddListener(BattleClick);
         ShopButton.onClick.AddListener(ShopClick);
     }
     private void OnDestroy() {
-        SceneManager.sceneLoaded -= SceneDoneLoading;
+        GameManager.OnGameStateChanged -= ChangeState;
     }
-
-    private void SceneDoneLoading(Scene arg0, LoadSceneMode arg1) {
+   
+    private void ChangeState(GameState t) {
         // TODO Maybe some nice transition where the shop fades in?
-        if (GameManager.Instance.State.Equals(GameState.Shop)) {
+        if (t.Equals(GameState.Shop)) {
             gameObject.GetComponent<Canvas>().worldCamera = FindObjectOfType<Camera>();
             PopulateShop();
             shopDisplayer.SetActive(true);
-        } else
-        {
+        } else {
             shopDisplayer.SetActive(false);
         }
     }
@@ -60,12 +64,12 @@ public class IUManagerScreen : StaticInstance<IUManagerScreen> {
         // TODO make a shop item lockable, maybe even more shop slots? Reroll etc. 
         for (int i = 0; i < shopWeapons.Length; i++) {
             shopWeapons[i] = ResourceSystem.Instance.GetRandomWeapon();
-            Instantiate(shopWeapons[i].Prefab.gameObject, shopPos[i], Quaternion.identity).GetComponent<Weapon>().SetposPrefered(i - 3);
+            Instantiate(shopWeapons[i].prefab.gameObject, shopPos[i], Quaternion.identity).GetComponent<Weapon>().SetposPrefered(i - 3);
             // Let the weapon instantiated know that its not cool and is only in the shop -3, -2, -1 are shop slots
         }
-            shopItemName1.text = shopWeapons[0].WeaponName.ToString();
-            shopItemName2.text = shopWeapons[1].WeaponName.ToString();
-            shopItemName3.text = shopWeapons[2].WeaponName.ToString();
+            shopItemName1.text = shopWeapons[0].weaponName.ToString();
+            shopItemName2.text = shopWeapons[1].weaponName.ToString();
+            shopItemName3.text = shopWeapons[2].weaponName.ToString();
         // TODO Make more information available
     }
 

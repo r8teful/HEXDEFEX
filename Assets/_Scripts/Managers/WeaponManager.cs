@@ -19,15 +19,17 @@ public class WeaponManager : StaticInstance<WeaponManager> {
 
     protected override void Awake() {
         base.Awake();
-        Debug.Log("awake is called on weaponmanager!");
-        weapons = weaponDataHolder.weaponsData;
+       // Debug.Log("awake is called on weaponmanager!");
+        weapons = weaponDataHolder.weaponsData; // TODO I think this will not actually work
         weaponClones = new GameObject[6];
-        SceneManager.sceneLoaded += SceneDoneLoading;
+        //SceneManager.sceneLoaded += SceneDoneLoading;
+        GameManager.OnGameStateChanged += StateChanged;
         InputManager.OnWeaponRelease += WeaponRelease;
         InputManager.OnWeaponBuy += WeaponBuy;
     }
     private void OnDestroy() {
-        SceneManager.sceneLoaded -= SceneDoneLoading;
+        //SceneManager.sceneLoaded -= SceneDoneLoading;
+        GameManager.OnGameStateChanged -= StateChanged;
         InputManager.OnWeaponRelease -= WeaponRelease;
         InputManager.OnWeaponBuy -= WeaponBuy;
     }
@@ -39,7 +41,7 @@ public class WeaponManager : StaticInstance<WeaponManager> {
         }
     }
 
-    private void SceneDoneLoading(Scene s, LoadSceneMode m) {
+    private void StateChanged(GameState t) {
         // Scene changed, spawn weapons on correct positions 
         player = Instantiate(originalPlayer, Vector3.zero, Quaternion.identity);
         InstantiateWeapons();
@@ -131,7 +133,7 @@ public class WeaponManager : StaticInstance<WeaponManager> {
     private void InstantiateWeapons() {
         for (int i = 0; i < 6; i++) {
             if (weapons[i] != null) {
-                weaponClones[i] = Instantiate(weapons[i].Prefab.gameObject, weaponPos[i], Quaternion.Euler(0, 0, gunRotations[i] + player.transform.eulerAngles.z), player.transform);
+                weaponClones[i] = Instantiate(weapons[i].prefab.gameObject, weaponPos[i], Quaternion.Euler(0, 0, gunRotations[i] + player.transform.eulerAngles.z), player.transform);
                 weaponClones[i].GetComponent<Weapon>().SetposPrefered(i);
             }
         }

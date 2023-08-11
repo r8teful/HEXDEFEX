@@ -6,11 +6,11 @@ using UnityEngine;
 public class WeaponScriptableObject : ScriptableObject {
     [SerializeField] private Stats _stats;
     public Stats BaseStats => _stats; // We dont want to directly change the struct from code, so make a coppy which we will use to change to give buffs 
-    public WeaponClass WeaponClass;
-    public WeaponName WeaponName;
-    public ShootMode ShootMode;
-    public Weapon Prefab;
-    public Bullet SpecialBullet; // Have one extra "Special" Bullet the gun can shoot, could be an explosion, freeze, homing etc. 
+    public WeaponClass weaponClass;
+    public WeaponName weaponName;
+    public ShootMode shootMode;
+    public Weapon prefab;
+    public Bullet specialBullet; // Have one extra "Special" Bullet the gun can shoot, could be an explosion, freeze, homing etc. 
 }
 
 /* 
