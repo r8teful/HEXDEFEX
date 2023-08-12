@@ -93,10 +93,22 @@ public class InputManager : StaticInstance<InputManager> {
                 // sellectInShop.transform.position = ;
             } else if ( canBuy && (sellectInShop != null) && (touch.phase == TouchPhase.Ended)) {
                 // BUY  IT. We dropped the sellected weapon out of the shop zone todo add logic for currency
+                // Get weapon cost
+                var cost = sellectInShop.GetComponent<Weapon>().GetWeaponData().BaseStats.cost;
+                // Check if we have enough money!
+                if (ShipManager.Instance.GetCurrency() < cost) {
+                    // We don't have enough money, don't buy it
+                    sellectInShop.GetComponent<Weapon>().Setsellected(false);
+                    sellectInShop = null;
+                    canBuy = false;
+                    return;
+                }
+                ShipManager.Instance.RemoveCurrency(cost);
                 OnWeaponBuy?.Invoke(sellectInShop);
                 sellectInShop.GetComponent<Weapon>().Setsellected(false);
                 canBuy = false;
                 sellectInShop = null;
+                // Feels weard to do all this here but HEH
             }
         }
     }

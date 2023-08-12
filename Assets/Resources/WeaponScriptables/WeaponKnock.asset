@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: WeaponKnock
   m_EditorClassIdentifier: 
   _stats:
+    cost: 10
     fireRate: 9
     bulletDamage: 50
     bulletSpeed: 3

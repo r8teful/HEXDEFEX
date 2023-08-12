@@ -8,7 +8,7 @@ public class Wave : MonoBehaviour {
     // This is the script that will be attached to the wave object
 
     [SerializeField] private WaveScriptableObject waveData;
-    private List<Enemy> enemyList;
+    public List<Enemy> enemyList; // todo make private
 
     public void StartWave() {
         Debug.Log("StartWave");
@@ -62,7 +62,6 @@ public class Wave : MonoBehaviour {
             // Get random spawn point
             Vector2 spawnPoint = GetNewSpawnPoint();
             int randomIndex = Random.Range(0, enemyList.Count);
-            Debug.Log("Spawning Enemy!");
             Instantiate(enemyList[randomIndex], spawnPoint, Quaternion.identity, transform);
             enemyList.RemoveAt(randomIndex);
             yield return new WaitForSeconds(spawnDelay);

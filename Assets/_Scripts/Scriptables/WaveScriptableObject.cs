@@ -11,7 +11,7 @@ public class WaveScriptableObject : ScriptableObject {
     public int waveNumber;
     public int waveStrength; //says how much currency we can spend on enemies
     public float waveDuration; // how long the wave lasts
-    public List<Pattern> posiblePatterns; // list of patterns that will be used in the wave
+    //public List<Pattern> posiblePatterns; // list of patterns that will be used in the wave
     public List<Enemy> posibleEnemies;
     public Wave prefab; 
     public Pattern pattern;

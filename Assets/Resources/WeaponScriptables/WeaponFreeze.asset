@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: WeaponFreeze
   m_EditorClassIdentifier: 
   _stats:
+    cost: 5
     fireRate: 3
     bulletDamage: 50
     bulletSpeed: 5

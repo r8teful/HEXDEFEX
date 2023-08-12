@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,8 +15,6 @@ public class WeaponManager : StaticInstance<WeaponManager> {
     private WeaponScriptableObject[] weapons;
     private GameObject[] weaponClones;
 
-    [SerializeField] private GameObject originalPlayer;
-    private GameObject player;
 
     protected override void Awake() {
         base.Awake();
@@ -41,9 +40,10 @@ public class WeaponManager : StaticInstance<WeaponManager> {
         }
     }
 
-    private void StateChanged(GameState t) {
-        // Scene changed, spawn weapons on correct positions 
-        player = Instantiate(originalPlayer, Vector3.zero, Quaternion.identity);
+    private async void StateChanged(GameState t) {
+        // Wait for Shipmanager to spawn the ship before we spawn the weapons
+        await ShipManager.Instance.SpawnPlayer();
+        
         InstantiateWeapons();
     }
     private void WeaponRelease(GameObject o) {
@@ -131,9 +131,10 @@ public class WeaponManager : StaticInstance<WeaponManager> {
     }
 
     private void InstantiateWeapons() {
+        var p = ShipManager.Instance.GetPlayer();
         for (int i = 0; i < 6; i++) {
             if (weapons[i] != null) {
-                weaponClones[i] = Instantiate(weapons[i].prefab.gameObject, weaponPos[i], Quaternion.Euler(0, 0, gunRotations[i] + player.transform.eulerAngles.z), player.transform);
+                weaponClones[i] = Instantiate(weapons[i].prefab.gameObject, weaponPos[i], Quaternion.Euler(0, 0, gunRotations[i] + p.transform.eulerAngles.z), p.transform);
                 weaponClones[i].GetComponent<Weapon>().SetposPrefered(i);
             }
         }

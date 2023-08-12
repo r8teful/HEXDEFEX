@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour {
@@ -39,15 +36,15 @@ public class Enemy : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.CompareTag("Player")) {
-            // TODO change player health
+            ShipManager.Instance.EnemyHit(enemyData.damage);
             Destroy(gameObject);
-            Debug.Log("HIT!");
         }
     }
     public void Hit(float dmg) {
         myHP -= dmg;
         //Debug.Log($"I got hit! Took {dmg} damage and current HP is now {myHP}!");
         if (myHP <= 0) {
+            ShipManager.Instance.AddCurrency(enemyData.cost); // TODO you get the cost of the enemy as money
             Destroy(gameObject);
         }
     }

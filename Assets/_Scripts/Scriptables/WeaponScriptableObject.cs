@@ -31,6 +31,7 @@ public class WeaponScriptableObject : ScriptableObject {
 */
 [Serializable]
 public struct Stats {
+    public int cost;
     public float fireRate;
     public float bulletDamage;
     public float bulletSpeed;

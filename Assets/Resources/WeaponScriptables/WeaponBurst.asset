@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: WeaponBurst
   m_EditorClassIdentifier: 
   _stats:
+    cost: 2
     fireRate: 1
     bulletDamage: 50
     bulletSpeed: 4

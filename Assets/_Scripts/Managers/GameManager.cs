@@ -6,8 +6,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : StaticInstance<GameManager> {
+    public delegate void GameStateChangedEventHandler(GameState state);
+
     public static event Action<GameState> OnGameStateChangedBefore;
-    public static event Action<GameState> OnGameStateChanged;
+    //public static event Action<GameState> OnGameStateChanged;
+    public static event GameStateChangedEventHandler OnGameStateChanged;
     public GameState State { get; private set; }
 
     //First state is just the current state we start the scene in right now for debugging purposes TODO 
@@ -28,6 +31,7 @@ public class GameManager : StaticInstance<GameManager> {
             case GameState.Battle: 
                 // Change scene to battle
                 WaveManager.Instance.StartWave();
+               
                 
                 break;
             case GameState.Shop:

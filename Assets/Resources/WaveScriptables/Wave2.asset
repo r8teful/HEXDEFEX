@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Wave2
   m_EditorClassIdentifier: 
   waveNumber: 2
-  waveStrength: 20
+  waveStrength: 40
   waveDuration: 60
-  posiblePatterns: 00000000
   posibleEnemies:
   - {fileID: 7284594615961592187, guid: 60c3eb3f9ffac084e83787a993d44132, type: 3}
+  - {fileID: 510166425705665209, guid: 31e9d91c7b7debf4988f5653a9a17923, type: 3}
   prefab: {fileID: 5012346248177478691, guid: b728bb36cfbeb974b91781d7b217f048, type: 3}
   pattern: 0

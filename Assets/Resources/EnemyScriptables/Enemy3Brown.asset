@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d35435dd4e2b60e4b92876942722f610, type: 3}
+  m_Name: Enemy3Brown
+  m_EditorClassIdentifier: 
+  pullSpeed: 1
+  maxSpeed: 2
+  health: 100
+  damage: 0
+  cost: 1
+  enemyName: 2
+  prefab: {fileID: 7284594615961592187, guid: 60c3eb3f9ffac084e83787a993d44132, type: 3}

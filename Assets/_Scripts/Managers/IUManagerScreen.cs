@@ -15,6 +15,19 @@ public class IUManagerScreen : StaticInstance<IUManagerScreen> {
     [SerializeField] private TMP_Text shopItemName1;
     [SerializeField] private TMP_Text shopItemName2;
     [SerializeField] private TMP_Text shopItemName3;
+    [SerializeField] private TMP_Text weapon1Cooldown;
+    [SerializeField] private TMP_Text weapon2Cooldown;
+    [SerializeField] private TMP_Text weapon3Cooldown;
+    [SerializeField] private TMP_Text weapon1DMG;
+    [SerializeField] private TMP_Text weapon2DMG;
+    [SerializeField] private TMP_Text weapon3DMG; 
+    [SerializeField] private TMP_Text weapon1Crit;
+    [SerializeField] private TMP_Text weapon2Crit;
+    [SerializeField] private TMP_Text weapon3Crit;
+    [SerializeField] private TMP_Text weapon1Cost;
+    [SerializeField] private TMP_Text weapon2Cost;
+    [SerializeField] private TMP_Text weapon3Cost;
+
     [SerializeField] private GameObject shopDisplayer;
     public readonly Vector3[] shopPos = { new Vector2(-1, -2), new Vector2(0, -2), new Vector2(1, -2) }; 
     private WeaponScriptableObject[] shopWeapons;
@@ -54,11 +67,39 @@ public class IUManagerScreen : StaticInstance<IUManagerScreen> {
             gameObject.GetComponent<Canvas>().worldCamera = FindObjectOfType<Camera>();
             PopulateShop();
             shopDisplayer.SetActive(true);
+            UpdateShopText();
         } else {
             shopDisplayer.SetActive(false);
         }
     }
 
+    private void UpdateShopText() {
+        // Update all show text
+        for (int i = 0; i < shopWeapons.Length; i++) {
+            WeaponScriptableObject weapon = shopWeapons[i];
+            if (weapon == null) continue;
+            switch (i) {
+                case 0:
+                    weapon1Cooldown.text = weapon.BaseStats.fireRate.ToString();
+                    weapon1DMG.text = weapon.BaseStats.bulletDamage.ToString();
+                    weapon1Crit.text = weapon.BaseStats.critRate.ToString();
+                    weapon1Cost.text = weapon.BaseStats.cost.ToString();
+                    break;
+                case 1:
+                    weapon2Cooldown.text = weapon.BaseStats.fireRate.ToString();
+                    weapon2DMG.text = weapon.BaseStats.bulletDamage.ToString();
+                    weapon2Crit.text = weapon.BaseStats.critRate.ToString();
+                    weapon2Cost.text = weapon.BaseStats.cost.ToString();
+                    break;
+                case 2:
+                    weapon3Cooldown.text = weapon.BaseStats.fireRate.ToString();
+                    weapon3DMG.text = weapon.BaseStats.bulletDamage.ToString();
+                    weapon3Crit.text = weapon.BaseStats.critRate.ToString();
+                    weapon3Cost.text = weapon.BaseStats.cost.ToString();
+                    break;
+            }
+        }
+    }
 
     private void PopulateShop() {
         // TODO make a shop item lockable, maybe even more shop slots? Reroll etc. 
