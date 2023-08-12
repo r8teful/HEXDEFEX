@@ -56,6 +56,7 @@ public class IUManagerScreen : StaticInstance<IUManagerScreen> {
         shopWeapons = new WeaponScriptableObject[3];
         battleButton.onClick.AddListener(BattleClick);
         ShopButton.onClick.AddListener(ShopClick);
+
     }
     private void OnDestroy() {
         GameManager.OnGameStateChanged -= ChangeState;
@@ -64,7 +65,7 @@ public class IUManagerScreen : StaticInstance<IUManagerScreen> {
     private void ChangeState(GameState t) {
         // TODO Maybe some nice transition where the shop fades in?
         if (t.Equals(GameState.Shop)) {
-            gameObject.GetComponent<Canvas>().worldCamera = FindObjectOfType<Camera>();
+           gameObject.GetComponent<Canvas>().worldCamera = GameObject.Find("UICamera").GetComponent<Camera>();//FindObjectOfType<Camera>();
             PopulateShop();
             shopDisplayer.SetActive(true);
             UpdateShopText();
@@ -108,9 +109,9 @@ public class IUManagerScreen : StaticInstance<IUManagerScreen> {
             Instantiate(shopWeapons[i].prefab.gameObject, shopPos[i], Quaternion.identity).GetComponent<Weapon>().SetposPrefered(i - 3);
             // Let the weapon instantiated know that its not cool and is only in the shop -3, -2, -1 are shop slots
         }
-            shopItemName1.text = shopWeapons[0].weaponName.ToString();
-            shopItemName2.text = shopWeapons[1].weaponName.ToString();
-            shopItemName3.text = shopWeapons[2].weaponName.ToString();
+           // shopItemName1.text = shopWeapons[0].weaponName.ToString();
+           // shopItemName2.text = shopWeapons[1].weaponName.ToString();
+           // shopItemName3.text = shopWeapons[2].weaponName.ToString();
         // TODO Make more information available
     }
 

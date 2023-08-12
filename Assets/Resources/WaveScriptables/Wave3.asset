@@ -16,6 +16,6 @@ MonoBehaviour:
   waveStrength: 30
   waveDuration: 60
   posibleEnemies:
-  - {fileID: 7284594615961592187, guid: 7759c8911dcc35f41a5673882e7c423b, type: 3}
+  - {fileID: 510166425705665209, guid: 31e9d91c7b7debf4988f5653a9a17923, type: 3}
   prefab: {fileID: 5012346248177478691, guid: 100b622b8d4ed8943bcec97e67c11ee6, type: 3}
   pattern: 0
