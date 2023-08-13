@@ -21,7 +21,7 @@ public class CameraController : StaticInstance<CameraController> {
             return;
         }
         base.Awake();
-        thisCamera = FindObjectOfType<Camera>();
+        thisCamera = GetComponentInChildren<Camera>();
         // Do this just for now TODO remove this and put it as first scene
         if (GameManager.Instance.State.Equals(GameState.Shop)) {
             thisCamera.orthographicSize = sizeShop;
@@ -35,8 +35,9 @@ public class CameraController : StaticInstance<CameraController> {
     }
 
     private void GameStateChanged(GameState t) {
-        StopAllCoroutines();
-        thisCamera = FindObjectOfType<Camera>();
+        StopAllCoroutines(); 
+        //thisCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        thisCamera = GetComponentInChildren<Camera>();
         thisCamera.transform.position = cameraPosition;
         thisCamera.orthographicSize = cameraSize;
         if (t.Equals(GameState.Shop)) {

@@ -24,13 +24,13 @@ public class WeaponManager : StaticInstance<WeaponManager> {
         //SceneManager.sceneLoaded += SceneDoneLoading;
         GameManager.OnGameStateChanged += StateChanged;
         InputManager.OnWeaponRelease += WeaponRelease;
-        InputManager.OnWeaponBuy += WeaponBuy;
+      
     }
     private void OnDestroy() {
         //SceneManager.sceneLoaded -= SceneDoneLoading;
         GameManager.OnGameStateChanged -= StateChanged;
         InputManager.OnWeaponRelease -= WeaponRelease;
-        InputManager.OnWeaponBuy -= WeaponBuy;
+   
     }
 
     private void Start() {
@@ -57,21 +57,9 @@ public class WeaponManager : StaticInstance<WeaponManager> {
         MoveWeaponData(indexFrom, indexTo);
     }
 
-    private void WeaponBuy(GameObject o) {
-        // YEY! You bought a weapon, how great. Let's see if there is space for it first
-        var emptySlots = 0;
-        for (int i = 0; i < weapons.Length; i++) {
-            if (weapons[i] == null) {
-                emptySlots++;
-            }
-        }
-        if (emptySlots == 0) {
-            // TODO ABORT
-            Debug.Log("ABORT. No space for weapon");
-        }
-
-
-        // Okey there is a slot, phew! Now where did we release the weapon so we know where to put it on the ship
+    public void WeaponBuy(GameObject o) {
+        // We assume we have enough money and there is space for the weapon when we call this funciton
+        // Where did we release the weapon so we know where to put it on the ship
         Vector2 pos = new Vector2(o.transform.position.x, o.transform.position.y);
         int indexTo = (int)GetClosestEdge(weaponPos, pos).z;
         var wd = IUManagerScreen.Instance.GetShopWeapon(o.GetComponent<Weapon>().GetPosPrefered()); // We get weapon data from the IUManager
@@ -97,7 +85,16 @@ public class WeaponManager : StaticInstance<WeaponManager> {
         weapons[indexTo] = wd; // We send it to the weapon[] array so that we can store the data in the right slot
         weaponClones[indexTo] = o; // To keep track of the gameobjects that are spawned we store them in an array
                                    // Call methods on the actual gameobject
-        o.GetComponent<Weapon>().SetposPrefered(indexTo);
+        o.GetComponent<Weapon>().SetPosPrefered(indexTo);
+    }
+
+    public void WeaponSell(GameObject o) {
+        // Delete data
+        var p = o.GetComponent<Weapon>().GetPosPrefered();
+        weapons[p] = null;
+        weaponClones[p] = null;
+        // Delete gameobject
+        Destroy(o);
     }
 
     // Maybe to do later, tried to make the rotation stay after a battle, but it will just be complicated with all the fixed rotation+position values
@@ -135,7 +132,7 @@ public class WeaponManager : StaticInstance<WeaponManager> {
         for (int i = 0; i < 6; i++) {
             if (weapons[i] != null) {
                 weaponClones[i] = Instantiate(weapons[i].prefab.gameObject, weaponPos[i], Quaternion.Euler(0, 0, gunRotations[i] + p.transform.eulerAngles.z), p.transform);
-                weaponClones[i].GetComponent<Weapon>().SetposPrefered(i);
+                weaponClones[i].GetComponent<Weapon>().SetPosPrefered(i);
             }
         }
     }
@@ -169,14 +166,31 @@ public class WeaponManager : StaticInstance<WeaponManager> {
             // Just move
             weaponClones[to] = weaponClones[from];
             weaponClones[from] = null;
-            weaponClones[to].GetComponent<Weapon>().SetposPrefered(to);
+            weaponClones[to].GetComponent<Weapon>().SetPosPrefered(to);
         } else {
             // Swap
             var temp = weaponClones[from];
             weaponClones[from] = weaponClones[to];
             weaponClones[to] = temp;
-            weaponClones[to].GetComponent<Weapon>().SetposPrefered(to);
-            weaponClones[from].GetComponent<Weapon>().SetposPrefered(from);
+            weaponClones[to].GetComponent<Weapon>().SetPosPrefered(to);
+            weaponClones[from].GetComponent<Weapon>().SetPosPrefered(from);
         }
+    }
+
+    public bool SpaceForWeapon() {
+        // Let's see if there is space for it first
+        var emptySlots = 0;
+        for (int i = 0; i < weapons.Length; i++) {
+            if (weapons[i] == null) {
+                emptySlots++;
+            }
+        }
+        if (emptySlots == 0) {
+            Debug.Log("ABORT. No space for weapon");
+            return false;
+        } else {
+            return true;
+        }
+
     }
 }

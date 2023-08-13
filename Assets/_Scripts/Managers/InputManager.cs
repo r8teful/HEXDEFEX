@@ -10,6 +10,7 @@ public class InputManager : StaticInstance<InputManager> {
     private Vector3 positionInitial;
     private Vector2 touchPosition;
     private bool canBuy;
+    private bool canSell;
     private GameObject sellectedOnShip = null;
     private GameObject sellectInShop = null;
     //private Vector3 shopPositionInitial;
@@ -45,12 +46,12 @@ public class InputManager : StaticInstance<InputManager> {
                     if (hitRay.collider.gameObject.GetComponent<Weapon>().GetPosPrefered() >= 0) {
                         // Weapon is on ship, sellect the weapon and tell it that it has been sellected, so that it doesn't pull itself towards the ship
                         sellectedOnShip = hitRay.collider.gameObject;
-                        sellectedOnShip.GetComponent<Weapon>().Setsellected(true);
+                        sellectedOnShip.GetComponent<Weapon>().SetSellected(true);
                     } else {
                         // Weapon is in the shop and is sellected
                         //sellectInShop = hitRay.collider.gameObject;
                         sellectInShop = hitRay.collider.gameObject;
-                        sellectInShop.GetComponent<Weapon>().Setsellected(true);
+                        sellectInShop.GetComponent<Weapon>().SetSellected(true);
                         //shopPositionInitial = sellectInShop.transform.position;
                     }
                 }
@@ -64,10 +65,31 @@ public class InputManager : StaticInstance<InputManager> {
                 sellectedOnShip.transform.position = Vector3.Slerp(sellectedOnShip.transform.position, toVec, 40f * Time.deltaTime);
                 // Rotates face to the middle. Based on a comment from a very generous person here:  http://answers.unity.com/comments/1482425/view.html 
                 sellectedOnShip.transform.up = Vector3.Slerp(sellectedOnShip.transform.up, sellectedOnShip.transform.position, 40f * Time.deltaTime);
-            } else if ((sellectedOnShip != null) && (touch.phase == TouchPhase.Ended)) {
-                // We released the selected weapon. Leave the rest of movement to the weaponmanager
+                //TODO tell the iuManager to draw the sell ui object! to notify to the user that they can sell this weapon if they release it in that area
+
+                // Check if we want to sell the item while holding a weapon that is on the ship
+                if (sellectedOnShip.transform.position.y < -1.4) {
+                    // IF WE RELEASE NOW, WE WILL SELL THIS WEAPON // TODO y position is completely abritrary could be inconsistent with different screen sizes!
+                    canSell = true;
+                } else {
+                    canSell = false;
+                }
+                // Check what will happen when we release the weapon that is on the ship. We either sell it, or move it to other position, or same position 
+            } else if (canSell && (sellectedOnShip != null) && (touch.phase == TouchPhase.Ended)) {
+                //SELL THE WEAPON!!!! 
+                // Get weapon cost
+                var cost = sellectedOnShip.GetComponent<Weapon>().GetWeaponData().BaseStats.cost;
+                // Award the cost
+                ShipManager.Instance.AddCurrency(cost);
+                // Tell the weapon manager to remove the weapon from the ship
+                WeaponManager.Instance.WeaponSell(sellectedOnShip);
+                // Reset the sellected weapon
+                sellectedOnShip = null;
+                canSell = false;
+            } else if (!canSell && (sellectedOnShip != null) && (touch.phase == TouchPhase.Ended)) {
+                // We released the selected weapon but did not intend to sell it. Leave the rest of movement to the weaponmanager
                 OnWeaponRelease?.Invoke(sellectedOnShip);
-                sellectedOnShip.GetComponent<Weapon>().Setsellected(false);
+                sellectedOnShip.GetComponent<Weapon>().SetSellected(false);
                 sellectedOnShip = null;
                 ////////////////////////////////////////////////////////
                 //SHOP// Done checking for the weapon sellected if its on the ship, now check for the weapon sellected when it is in the shop
@@ -88,24 +110,25 @@ public class InputManager : StaticInstance<InputManager> {
                 //sellectInShop.transform.up = Vector3.Slerp(sellectInShop.transform.up, shopPositionInitial - sellectInShop.transform.position, 40f * Time.deltaTime);
             } else if (!canBuy && sellectInShop != null && touch.phase == TouchPhase.Ended) {
                 // Check if we dropped weapon while not buying it
-                sellectInShop.GetComponent<Weapon>().Setsellected(false);
+                sellectInShop.GetComponent<Weapon>().SetSellected(false);
                 sellectInShop = null;
                 // sellectInShop.transform.position = ;
             } else if ( canBuy && (sellectInShop != null) && (touch.phase == TouchPhase.Ended)) {
                 // BUY  IT. We dropped the sellected weapon out of the shop zone todo add logic for currency
                 // Get weapon cost
                 var cost = sellectInShop.GetComponent<Weapon>().GetWeaponData().BaseStats.cost;
-                // Check if we have enough money!
-                if (ShipManager.Instance.GetCurrency() < cost) {
-                    // We don't have enough money, don't buy it
-                    sellectInShop.GetComponent<Weapon>().Setsellected(false);
+                // Check if we have enough money! Or if ship is full
+                if ((ShipManager.Instance.GetCurrency() < cost) || (!WeaponManager.Instance.SpaceForWeapon())) {
+                    // We don't have enough money, don't buy it TODO notify UI that we cant buy it due to x
+                    sellectInShop.GetComponent<Weapon>().SetSellected(false);
                     sellectInShop = null;
                     canBuy = false;
                     return;
                 }
-                ShipManager.Instance.RemoveCurrency(cost);
-                OnWeaponBuy?.Invoke(sellectInShop);
-                sellectInShop.GetComponent<Weapon>().Setsellected(false);
+                ShipManager.Instance.RemoveCurrency(cost); // Could change this to an event instead
+                WeaponManager.Instance.WeaponBuy(sellectInShop); // NEed to do this first to set posprefered, shop relies on it to remove it from shoparray
+                OnWeaponBuy?.Invoke(sellectInShop); // Notifies shop
+                sellectInShop.GetComponent<Weapon>().SetSellected(false);
                 canBuy = false;
                 sellectInShop = null;
                 // Feels weard to do all this here but HEH

@@ -58,11 +58,11 @@ public class Weapon : MonoBehaviour {
         }
     }
 
-    public void SetposPrefered(int value) {
+    public void SetPosPrefered(int value) {
         //Debug.Log($"Setting prefered pos to: {value}");
         posPrefered = value;
     }
-    public void Setsellected(bool value) {
+    public void SetSellected(bool value) {
         sellected = value;
     }
 
@@ -74,4 +74,5 @@ public class Weapon : MonoBehaviour {
     }
 
     public virtual void SetStats(Stats stats) => Stats = stats;
+
 }

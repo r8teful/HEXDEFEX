@@ -31,8 +31,10 @@ public class IUManagerScreen : StaticInstance<IUManagerScreen> {
     [SerializeField] private GameObject shopDisplayer;
     public readonly Vector3[] shopPos = { new Vector2(-1, -2), new Vector2(0, -2), new Vector2(1, -2) }; 
     private WeaponScriptableObject[] shopWeapons;
+    private GameObject[] shopWeaponsGameObjects;
     [SerializeField] private Button battleButton;
     [SerializeField] private Button ShopButton;
+    [SerializeField] private Button RerollButton;
 
     private void BattleClick()
     {
@@ -50,16 +52,34 @@ public class IUManagerScreen : StaticInstance<IUManagerScreen> {
         GameManager.Instance.ChangeState(GameState.Loading); 
         SceneOperator.Instance.ChangeScene(GameState.Shop);
     }
+
+    private void RerollClick() {
+        // Check if we have enough currency toodo 5 for now but it has to scale I think?
+        if (ShipManager.Instance.GetCurrency() < 5) return;
+        // Spend the currency
+        ShipManager.Instance.RemoveCurrency(5);
+        // Reroll is just populating??
+        PopulateShop();
+    }
+
+
     protected override void Awake() {
         base.Awake();
         GameManager.OnGameStateChanged += ChangeState;
+        InputManager.OnWeaponBuy += WeaponBuy;
         shopWeapons = new WeaponScriptableObject[3];
+        shopWeaponsGameObjects = new GameObject[3];
         battleButton.onClick.AddListener(BattleClick);
         ShopButton.onClick.AddListener(ShopClick);
+        RerollButton.onClick.AddListener(RerollClick);
 
     }
+
+   
+
     private void OnDestroy() {
         GameManager.OnGameStateChanged -= ChangeState;
+        InputManager.OnWeaponBuy -= WeaponBuy;
     }
    
     private void ChangeState(GameState t) {
@@ -103,16 +123,39 @@ public class IUManagerScreen : StaticInstance<IUManagerScreen> {
     }
 
     private void PopulateShop() {
-        // TODO make a shop item lockable, maybe even more shop slots? Reroll etc. 
+        // Destroy all shop weapons gameobjects
+        for (int i = 0; i < shopWeaponsGameObjects.Length; i++) {
+            if (shopWeaponsGameObjects[i] != null) Destroy(shopWeaponsGameObjects[i]);
+        }
+        shopWeaponsGameObjects = new GameObject[3];
+        shopWeapons = new WeaponScriptableObject[3];
+        // clear shop weapon array
+        //Array.Clear(shopWeapons, 0, shopWeapons.Length);
+        //Array.Clear(shopWeaponsGameObjects, 0, shopWeaponsGameObjects.Length);
+
+
+
         for (int i = 0; i < shopWeapons.Length; i++) {
             shopWeapons[i] = ResourceSystem.Instance.GetRandomWeapon();
-            Instantiate(shopWeapons[i].prefab.gameObject, shopPos[i], Quaternion.identity).GetComponent<Weapon>().SetposPrefered(i - 3);
+            shopWeaponsGameObjects[i] = Instantiate(shopWeapons[i].prefab.gameObject, shopPos[i], Quaternion.identity);
+            shopWeaponsGameObjects[i].GetComponent<Weapon>().SetPosPrefered(i - 3);
+
             // Let the weapon instantiated know that its not cool and is only in the shop -3, -2, -1 are shop slots
         }
            // shopItemName1.text = shopWeapons[0].weaponName.ToString();
            // shopItemName2.text = shopWeapons[1].weaponName.ToString();
            // shopItemName3.text = shopWeapons[2].weaponName.ToString();
         // TODO Make more information available
+    }
+
+    private void WeaponBuy(GameObject g) {
+        // Loop through the shopWeaponsGameObjects array
+        for (int i = 0; i < shopWeaponsGameObjects.Length; i++) {
+            // Check if the element is not null and has a positive preferred position
+            if (shopWeaponsGameObjects[i]?.GetComponent<Weapon>().GetPosPrefered() >= 0) {
+                shopWeaponsGameObjects[i] = null; // Remove the element
+            }
+        }
     }
 
 

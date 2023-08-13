@@ -16,7 +16,7 @@ public class ShipManager : StaticInstance<ShipManager> {
     private float shipLVL;
     private float shipExp;
     private float shipExpToNextLVL;
-    private int currency = 20; 
+    private int currency = 2000; 
 
     public async Task SpawnPlayer() {
         player = Instantiate(originalPlayer, Vector3.zero, Quaternion.identity);
