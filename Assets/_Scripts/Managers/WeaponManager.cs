@@ -19,7 +19,7 @@ public class WeaponManager : StaticInstance<WeaponManager> {
     protected override void Awake() {
         base.Awake();
        // Debug.Log("awake is called on weaponmanager!");
-        weapons = weaponDataHolder.weaponsData; // TODO I think this will not actually work
+        weapons = weaponDataHolder.weaponsData; // TODO I think this will not actually work ( scripteblobjects don't save well in build)
         weaponClones = new GameObject[6];
         //SceneManager.sceneLoaded += SceneDoneLoading;
         GameManager.OnGameStateChanged += StateChanged;
@@ -86,6 +86,7 @@ public class WeaponManager : StaticInstance<WeaponManager> {
         weaponClones[indexTo] = o; // To keep track of the gameobjects that are spawned we store them in an array
                                    // Call methods on the actual gameobject
         o.GetComponent<Weapon>().SetPosPrefered(indexTo);
+        UpdateNeighbors();
     }
 
     public void WeaponSell(GameObject o) {
@@ -95,6 +96,7 @@ public class WeaponManager : StaticInstance<WeaponManager> {
         weaponClones[p] = null;
         // Delete gameobject
         Destroy(o);
+        UpdateNeighbors();
     }
 
     // Maybe to do later, tried to make the rotation stay after a battle, but it will just be complicated with all the fixed rotation+position values
@@ -156,6 +158,8 @@ public class WeaponManager : StaticInstance<WeaponManager> {
             weapons[to] = temp;
             Debug.Log($"Both slot {to} and slot {from} are full, swapping");
         }
+        // Notify the weapons that someone has moved
+        UpdateNeighbors();
     }
     private void MoveWeaponClones(int from, int to) {
         // Moves a gun from from to to, if to is not empty spaw from and to 
@@ -166,14 +170,26 @@ public class WeaponManager : StaticInstance<WeaponManager> {
             // Just move
             weaponClones[to] = weaponClones[from];
             weaponClones[from] = null;
-            weaponClones[to].GetComponent<Weapon>().SetPosPrefered(to);
+            var w = weaponClones[to].GetComponent<Weapon>();
+            w.SetPosPrefered(to);
+            w.ApplyBuffsFromNeighbors();
+
         } else {
             // Swap
             var temp = weaponClones[from];
             weaponClones[from] = weaponClones[to];
             weaponClones[to] = temp;
+            // Position now changed. Let weapons know
             weaponClones[to].GetComponent<Weapon>().SetPosPrefered(to);
             weaponClones[from].GetComponent<Weapon>().SetPosPrefered(from);
+        }
+    }
+
+    private void UpdateNeighbors() {
+        for (int i = 0; i < weaponClones.Length; i++) {
+            if (weaponClones[i] != null) {
+                weaponClones[i].GetComponent<Weapon>().ApplyBuffsFromNeighbors();
+            }
         }
     }
 
@@ -191,6 +207,11 @@ public class WeaponManager : StaticInstance<WeaponManager> {
         } else {
             return true;
         }
+    }
 
+    // nullable struct is a thing
+    public WeaponClass? GetWeaponClassByPosPrefered(int pos) {
+        if (weaponClones[pos] == null) return null;
+        return weapons[pos].weaponClass;
     }
 }

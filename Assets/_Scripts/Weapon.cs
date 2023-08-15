@@ -11,8 +11,12 @@ public class Weapon : MonoBehaviour {
     //public WeaponType weaponType;
     [SerializeField] private protected WeaponScriptableObject weaponData;
     [SerializeField] private protected GameObject bulletDefault; // protect: only classes that enherit can access
+    private List<Weapon> neighbors = new List<Weapon>();
+
     //public abstract void Shoot(Quaternion orientation);//abstract: Enherit class should implement it
     private bool sellected;
+    private float damageMultiplier;
+
     public Stats Stats { get; private set; }
 
     private protected virtual void Awake() {
@@ -57,6 +61,77 @@ public class Weapon : MonoBehaviour {
             yield return null;
         }
     }
+
+    // Method to apply buffs based on neighbors 90% of the fun in this game will lay in this function 
+    /*
+    public void ApplyBuffsFromNeighbors() {
+        float damageMultiplier = 1.0f;
+
+        foreach (Weapon neighborWeapon in neighbors) {
+            if (neighborWeapon.weaponData.weaponClass == weaponData.weaponClass) {
+                // Apply damage boost logic here todo make boost depend on what class 
+                damageMultiplier += 0.20f;
+            }
+        }
+        // Create new stats
+        var stats = weaponData.BaseStats;
+        // Apply the damage multiplier to the weapon's damage
+        stats.bulletDamage *= damageMultiplier;
+        // Apply other buffs based on the logic you have
+        SetStats(stats);
+    }*/
+
+
+
+
+    public void ApplyBuffsFromNeighbors() {
+        
+        int numValidNeighbors = 0;
+        WeaponClass? n1, n2;
+        // Check wierd edge cases, 0 neigbors is 5 and 1. 5 has neighbor 0 and 4
+        if(posPrefered == 0) {
+            n1 = WeaponManager.Instance.GetWeaponClassByPosPrefered(5);
+            n2 = WeaponManager.Instance.GetWeaponClassByPosPrefered(1);
+        } else if (posPrefered==5) {
+            n1 = WeaponManager.Instance.GetWeaponClassByPosPrefered(0);
+            n2 = WeaponManager.Instance.GetWeaponClassByPosPrefered(4);
+        } else {
+            n1 = WeaponManager.Instance.GetWeaponClassByPosPrefered(posPrefered-1);
+            n2 = WeaponManager.Instance.GetWeaponClassByPosPrefered(posPrefered+1);
+        }
+       // if (n1 == null && n2 == null) return; // no neighbors :(
+
+        if (n1 == weaponData.weaponClass || n2 == weaponData.weaponClass) {
+            // atleast one neighbor
+            numValidNeighbors = 1;
+        } if (n1 == weaponData.weaponClass && n2 == weaponData.weaponClass) {
+            // two valid neihbors
+            numValidNeighbors = 2;
+        }
+
+        //if (numValidNeighbors != previousNeighborCount) {
+        //    damageMultiplier = CalculateDamageMultiplier(numValidNeighbors);
+        //    previousNeighborCount = numValidNeighbors;
+        //} else {
+        //    damageMultiplier = 1.0f;
+        //}
+        damageMultiplier = CalculateDamageMultiplier(numValidNeighbors);
+        // Create new stats
+        var stats = weaponData.BaseStats;
+        // Apply the damage multiplier to the weapon's damage
+        stats.bulletDamage *= damageMultiplier;
+        // Apply other buffs based on the logic you have
+        Debug.Log($"I'm {gameObject.name} My Bullet damage is ({stats.bulletDamage})");
+
+        SetStats(stats);
+    }
+
+    private float CalculateDamageMultiplier(int numValidNeighbors) {
+        if (numValidNeighbors == 1) return 1.2f;
+        if (numValidNeighbors >= 2) return 1.5f;
+        return 1.0f;
+    }
+
 
     public void SetPosPrefered(int value) {
         //Debug.Log($"Setting prefered pos to: {value}");

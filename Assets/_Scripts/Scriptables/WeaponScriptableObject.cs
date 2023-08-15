@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Weapon", menuName = "ScriptableObjects/WeaponScriptableObject", order = 2)]
 public class WeaponScriptableObject : ScriptableObject {
     [SerializeField] private Stats _stats;
-    public Stats BaseStats => _stats; // We dont want to directly change the struct from code, so make a coppy which we will use to change to give buffs 
+    public Stats BaseStats => _stats; // We dont want to directly change the struct from code, so make a copy which we will use to change to give buffs 
     public WeaponClass weaponClass;
     public WeaponName weaponName;
     public ShootMode shootMode;

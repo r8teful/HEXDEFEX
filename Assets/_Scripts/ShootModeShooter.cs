@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Handles shoot mode for weapons
 public class ShootModeShooter : MonoBehaviour {
 
     public ShootMode ShootMode { get; set; }
