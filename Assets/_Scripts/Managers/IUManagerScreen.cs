@@ -15,6 +15,9 @@ public class IUManagerScreen : StaticInstance<IUManagerScreen> {
     [SerializeField] private TMP_Text shopItemName1;
     [SerializeField] private TMP_Text shopItemName2;
     [SerializeField] private TMP_Text shopItemName3;
+    [SerializeField] private TMP_Text weapon1Desc;
+    [SerializeField] private TMP_Text weapon2Desc;
+    [SerializeField] private TMP_Text weapon3Desc;
     [SerializeField] private TMP_Text weapon1Cooldown;
     [SerializeField] private TMP_Text weapon2Cooldown;
     [SerializeField] private TMP_Text weapon3Cooldown;
@@ -136,15 +139,19 @@ public class IUManagerScreen : StaticInstance<IUManagerScreen> {
 
 
         for (int i = 0; i < shopWeapons.Length; i++) {
-            shopWeapons[i] = ResourceSystem.Instance.GetRandomWeapon();
+            shopWeapons[i] = ResourceSystem.Instance.GetRandomWeapon(); // TODO change this so that it increases chances of better level for scaling
+            //shopWeapons[i].level = 2; we can do something like that
             shopWeaponsGameObjects[i] = Instantiate(shopWeapons[i].prefab.gameObject, shopPos[i], Quaternion.identity);
+            // Let the weapon instantiated know that its not cool and is only in the shop -3, -2, -1 are shop slots
             shopWeaponsGameObjects[i].GetComponent<Weapon>().SetPosPrefered(i - 3);
 
-            // Let the weapon instantiated know that its not cool and is only in the shop -3, -2, -1 are shop slots
         }
-           // shopItemName1.text = shopWeapons[0].weaponName.ToString();
-           // shopItemName2.text = shopWeapons[1].weaponName.ToString();
-           // shopItemName3.text = shopWeapons[2].weaponName.ToString();
+        shopItemName1.text = shopWeapons[0].weaponName.ToString();
+        shopItemName2.text = shopWeapons[1].weaponName.ToString();
+        shopItemName3.text = shopWeapons[2].weaponName.ToString();
+        weapon1Desc.text = shopWeapons[0].description;
+        weapon2Desc.text = shopWeapons[1].description;
+        weapon3Desc.text = shopWeapons[2].description;
         // TODO Make more information available
     }
 

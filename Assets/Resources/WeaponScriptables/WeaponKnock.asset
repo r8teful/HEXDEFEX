@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stats:
     cost: 10
-    fireRate: 9
+    fireRate: 0.5
     bulletDamage: 50
     bulletSpeed: 3
     bulletSize: 0
@@ -26,8 +26,11 @@ MonoBehaviour:
     accurasy: 0
     range: 0
     knockback: 1
-  weaponClass: 0
+  weaponClass: 5
   weaponName: 4
   shootMode: 0
   prefab: {fileID: 4932741348345043992, guid: 3e15d94f9c5c6e748b6f08faf46747a9, type: 3}
   specialBullet: {fileID: 6534905698257273422, guid: 36bafbb8d0be5514fbd397d59d13170b, type: 3}
+  level: 0
+  description: Will sometimes shoot a powerful bullet that will push the enemy far
+    back

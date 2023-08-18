@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using System;
 using UnityEngine;
 
@@ -11,6 +10,8 @@ public class WeaponScriptableObject : ScriptableObject {
     public ShootMode shootMode;
     public Weapon prefab;
     public Bullet specialBullet; // Have one extra "Special" Bullet the gun can shoot, could be an explosion, freeze, homing etc. 
+    public int level;
+    public string description;
 }
 
 /* 

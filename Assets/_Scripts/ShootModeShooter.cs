@@ -47,7 +47,7 @@ public class ShootModeShooter : MonoBehaviour {
     private IEnumerator SpawnBulletsSingle() {
         while (true) {
             thisWeapon.Shoot(gameObject.transform.rotation); // Tell the weapon attached to the gameobject to shoot its bullet
-            yield return new WaitForSeconds(1 / thisWeapon.GetWeaponData().BaseStats.fireRate);
+            yield return new WaitForSeconds(thisWeapon.GetWeaponData().BaseStats.fireRate);
         }
     }
 
@@ -57,7 +57,7 @@ public class ShootModeShooter : MonoBehaviour {
     private IEnumerator SpawnBulletsBurst() {
         while (true) {
             StartCoroutine(ShootBurst());
-            yield return new WaitForSeconds(1 / thisWeapon.GetWeaponData().BaseStats.fireRate);
+            yield return new WaitForSeconds(thisWeapon.GetWeaponData().BaseStats.fireRate);
         }
     }
     private IEnumerator ShootBurst() {
@@ -76,7 +76,7 @@ public class ShootModeShooter : MonoBehaviour {
             thisWeapon.Shoot(gameObject.transform.rotation);
             thisWeapon.Shoot(Quaternion.Euler(0, 0, gameObject.transform.rotation.eulerAngles.z - 30)); // Offset left
             thisWeapon.Shoot(Quaternion.Euler(0, 0, gameObject.transform.rotation.eulerAngles.z + 30)); // Offset right
-            yield return new WaitForSeconds(1 / thisWeapon.GetWeaponData().BaseStats.fireRate);
+            yield return new WaitForSeconds(thisWeapon.GetWeaponData().BaseStats.fireRate);
         }
     }
 }

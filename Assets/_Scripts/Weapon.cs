@@ -11,7 +11,6 @@ public class Weapon : MonoBehaviour {
     //public WeaponType weaponType;
     [SerializeField] private protected WeaponScriptableObject weaponData;
     [SerializeField] private protected GameObject bulletDefault; // protect: only classes that enherit can access
-    private List<Weapon> neighbors = new List<Weapon>();
 
     //public abstract void Shoot(Quaternion orientation);//abstract: Enherit class should implement it
     private bool sellected;

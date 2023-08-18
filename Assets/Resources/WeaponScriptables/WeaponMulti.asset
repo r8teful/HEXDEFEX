@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stats:
     cost: 5
-    fireRate: 3
+    fireRate: 2
     bulletDamage: 50
     bulletSpeed: 4
     bulletSize: 0
@@ -26,8 +26,10 @@ MonoBehaviour:
     accurasy: 0
     range: 0
     knockback: 0.5
-  weaponClass: 0
+  weaponClass: 1
   weaponName: 2
-  shootMode: 0
+  shootMode: 2
   prefab: {fileID: 5207814240611483619, guid: 0471c881dec9a634c962435ac6240547, type: 3}
   specialBullet: {fileID: 0}
+  level: 0
+  description: Shoots three bullets at once

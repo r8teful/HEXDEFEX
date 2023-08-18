@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pullSpeed: 1
   maxSpeed: 2
-  health: 150
+  health: 250
   damage: 2
   cost: 2
   enemyName: 1

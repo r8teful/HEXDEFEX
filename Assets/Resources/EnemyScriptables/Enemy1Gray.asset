@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Enemy1Gray
   m_EditorClassIdentifier: 
   pullSpeed: 1
-  maxSpeed: 2
-  health: 100
+  maxSpeed: 1
+  health: 200
   damage: 1
   cost: 1
   enemyName: 0

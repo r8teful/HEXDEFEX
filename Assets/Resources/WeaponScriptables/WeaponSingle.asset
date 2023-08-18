@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stats:
     cost: 5
-    fireRate: 7
+    fireRate: 0.1
     bulletDamage: 50
     bulletSpeed: 5
     bulletSize: 0
@@ -31,3 +31,5 @@ MonoBehaviour:
   shootMode: 0
   prefab: {fileID: 4066870420755394248, guid: bfd003ae32527914a810311d4ecb1db0, type: 3}
   specialBullet: {fileID: 0}
+  level: 0
+  description: Your normal shooting experience

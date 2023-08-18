@@ -26,8 +26,10 @@ MonoBehaviour:
     accurasy: 0
     range: 0
     knockback: 0.5
-  weaponClass: 0
+  weaponClass: 3
   weaponName: 1
-  shootMode: 0
+  shootMode: 1
   prefab: {fileID: 5207814240611483619, guid: f8951d08374319347a39a333f4b4b860, type: 3}
   specialBullet: {fileID: 6534905698257273422, guid: 36bafbb8d0be5514fbd397d59d13170b, type: 3}
+  level: 0
+  description: Shoots three bullets in quick succession

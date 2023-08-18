@@ -69,6 +69,18 @@ PrefabInstance:
       propertyPath: weaponData
       value: 
       objectReference: {fileID: 11400000, guid: 8780482f263b51d4aa420003f9cd80ec, type: 2}
+    - target: {fileID: 4066870420755394249, guid: bfd003ae32527914a810311d4ecb1db0, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4066870420755394249, guid: bfd003ae32527914a810311d4ecb1db0, type: 3}
+      propertyPath: m_Color.g
+      value: 0.19210191
+      objectReference: {fileID: 0}
+    - target: {fileID: 4066870420755394249, guid: bfd003ae32527914a810311d4ecb1db0, type: 3}
+      propertyPath: m_Color.r
+      value: 0.5188679
+      objectReference: {fileID: 0}
     - target: {fileID: 4066870420755394251, guid: bfd003ae32527914a810311d4ecb1db0, type: 3}
       propertyPath: m_Name
       value: GunKnockback

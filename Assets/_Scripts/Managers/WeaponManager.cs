@@ -47,14 +47,26 @@ public class WeaponManager : StaticInstance<WeaponManager> {
         InstantiateWeapons();
     }
     private void WeaponRelease(GameObject o) {
-        // Find out what object that got released
+        // Find out what object that got released. This assumes that the weapon is already added to the ship. And not from the shop
         var indexFrom = Array.IndexOf(weaponClones, o);
         // What slot is this object closest to?
         Vector2 pos = new Vector2(o.transform.position.x, o.transform.position.y);
         int indexTo = (int)GetClosestEdge(weaponPos, pos).z;
-        // Smoothly move this object to the fixed slot. If there is already an object there, move that to the slot the object we want to move in
-        // MoveWeaponClones(indexFrom, indexTo);
-        MoveWeaponData(indexFrom, indexTo);
+        // Check if the weapon on indexTo is of the same name, if so, upgrade, if not, move
+        if (weapons[indexTo] != null && weapons[indexTo].weaponName == weapons[indexFrom].weaponName) {
+            WeaponUpgrade(weapons[indexTo], weapons[indexFrom]);
+        } else {
+            // Smoothly move this object to the fixed slot. If there is already an object there, move that to the slot the object we want to move in
+            MoveWeaponData(indexFrom, indexTo);
+        }
+
+
+    }
+
+    private void WeaponUpgrade(WeaponScriptableObject one, WeaponScriptableObject two) {
+        // Destroy one weapon convert one weapon to lvl 2 version
+        
+
     }
 
     public void WeaponBuy(GameObject o) {
@@ -66,8 +78,13 @@ public class WeaponManager : StaticInstance<WeaponManager> {
         
         // Check if there is already a weapon in the slot we want to buy a weapon to
         if (weapons[indexTo] != null) {
-            // There is a weapon in the slot, we need to move it to an empty slot
+            // There is a weapon in the slot, we need to move it to an empty slot, or upgrade it if it is the same weapon name
             var indexFrom = Array.IndexOf(weapons, weapons[indexTo]);
+            // Check for upgrade
+            if (weapons[indexTo].weaponName == wd.weaponName) {
+               // WeaponUpgrade(); TODO tomorrow 18th aug
+                return; 
+            }
             // Find an empty slot
             for (int i = 0; i < weapons.Length; i++) {
                 if (weapons[i] == null) {
@@ -75,12 +92,6 @@ public class WeaponManager : StaticInstance<WeaponManager> {
                     break;
                 }
             }
-            // Add the data
-          //  weapons[indexTo] = wd;
-            //MoveWeaponData(indexFrom, 6); // 6 is the empty slot
-       // } else {
-            // Move it to the correct slot and add data
-            
         }
         weapons[indexTo] = wd; // We send it to the weapon[] array so that we can store the data in the right slot
         weaponClones[indexTo] = o; // To keep track of the gameobjects that are spawned we store them in an array
@@ -106,6 +117,7 @@ public class WeaponManager : StaticInstance<WeaponManager> {
     //        prevRotation = player.transform.rotation;
     //    }
     //}
+    
 
 
     // z value is index, inspired from https://forum.unity.com/threads/clean-est-way-to-find-nearest-object-of-many-c.44315/#post-7595566
