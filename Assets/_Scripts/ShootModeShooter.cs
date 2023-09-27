@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // Handles shoot mode for weapons
@@ -44,10 +43,18 @@ public class ShootModeShooter : MonoBehaviour {
                 throw new NotImplementedException();
         }
     }
+
+
+
+
+
     private IEnumerator SpawnBulletsSingle() {
         while (true) {
-            thisWeapon.Shoot(gameObject.transform.rotation); // Tell the weapon attached to the gameobject to shoot its bullet
-            yield return new WaitForSeconds(thisWeapon.GetWeaponData().BaseStats.fireRate);
+            // TODO take accuracy into account
+            var stats = thisWeapon.GetWeaponData().BaseStats;
+            var shootAngle = Quaternion.Euler(0, 0, gameObject.transform.rotation.eulerAngles.z + GetAngle(stats.accuracy));
+            thisWeapon.Shoot(shootAngle); // Tell the weapon attached to the gameobject to shoot its bullet
+            yield return new WaitForSeconds(0.5f/stats.fireRate);
         }
     }
 
@@ -79,4 +86,25 @@ public class ShootModeShooter : MonoBehaviour {
             yield return new WaitForSeconds(thisWeapon.GetWeaponData().BaseStats.fireRate);
         }
     }
+
+
+    static float GetAngle(float accuracy) {
+        // Calculate the maximum deviation from 0 based on the accuracy
+        // 0 accuracy is 45 degrees, 1.5 accuracy is 0 degrees
+        float maxDeviation = 45 - 30 * accuracy;
+        // If the accuracy is out of range, set the maxDeviation to the extreme values
+        if (accuracy < 0) {
+            maxDeviation = 45;
+        } else if (accuracy > 1.5) {
+            maxDeviation = 0;
+        }
+
+        // Generate a random angle between -maxDeviation and maxDeviation
+        var angle = UnityEngine.Random.Range(-maxDeviation, maxDeviation);
+        Debug.Log("Angle: " + angle);
+        return angle; 
+    }
 }
+
+
+

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WeaponKnock : Weapon {
+
     public override void Shoot(Quaternion orientation) {
         // Random chanse that it will be a frozen bullet, could also make it not random ??
         if (Random.Range(0, 6) == 0)

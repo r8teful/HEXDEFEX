@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour {
 
     void Start() {
         rigid2D = GetComponent<Rigidbody2D>();
-        rigid2D.velocity = transform.up * myData.BaseStats.bulletSpeed;
+        rigid2D.velocity = transform.up * myData.BaseStats.bulletSpeed*4;
         StartCoroutine(DestroyAfterSeconds());
     }
 

@@ -10,26 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5714d16212b66f74c8f7555146c85d4f, type: 3}
-  m_Name: WeaponSingle
+  m_Name: Freezer
   m_EditorClassIdentifier: 
-  _stats:
-    cost: 5
-    fireRate: 0.1
-    bulletDamage: 50
-    bulletSpeed: 5
-    bulletSize: 0
-    defensePen: 0
-    critRate: 0
-    critDamage: 0
-    aoeSize: 0
-    aoeDamage: 0
-    accurasy: 0
-    range: 0
-    knockback: 0.0001
   weaponClass: 0
   weaponName: 0
   shootMode: 0
-  prefab: {fileID: 4066870420755394248, guid: bfd003ae32527914a810311d4ecb1db0, type: 3}
+  prefab: {fileID: 0}
   specialBullet: {fileID: 0}
   level: 0
-  description: Your normal shooting experience
+  description: 

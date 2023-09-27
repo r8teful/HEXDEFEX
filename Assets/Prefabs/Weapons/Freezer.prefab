@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8666b1dd7d176574eb6dd08dea125fc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponData: {fileID: 11400000, guid: 62253a8af414d6f46a1d92e9c9dc2c7f, type: 2}
+  weaponData: {fileID: 11400000, guid: 04860ae5f6dcc8c4991c38c402547447, type: 2}
   bulletDefault: {fileID: 6089950668900422762, guid: 266dc7ee74e95424d8b76c65b826c01e, type: 3}
 --- !u!1001 &545152338488796684
 PrefabInstance:
@@ -87,7 +87,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4066870420755394251, guid: bfd003ae32527914a810311d4ecb1db0, type: 3}
       propertyPath: m_Name
-      value: GunFreeze
+      value: Freezer
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4066870420755394248, guid: bfd003ae32527914a810311d4ecb1db0, type: 3}

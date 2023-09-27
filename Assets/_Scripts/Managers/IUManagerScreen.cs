@@ -91,7 +91,7 @@ public class IUManagerScreen : StaticInstance<IUManagerScreen> {
            gameObject.GetComponent<Canvas>().worldCamera = GameObject.Find("UICamera").GetComponent<Camera>();//FindObjectOfType<Camera>();
             PopulateShop();
             shopDisplayer.SetActive(true);
-            UpdateShopText();
+
         } else {
             shopDisplayer.SetActive(false);
         }
@@ -104,21 +104,29 @@ public class IUManagerScreen : StaticInstance<IUManagerScreen> {
             if (weapon == null) continue;
             switch (i) {
                 case 0:
+                    shopItemName1.text = weapon.weaponName.ToString();
+                    weapon1Desc.text = weapon.description;
+
                     weapon1Cooldown.text = weapon.BaseStats.fireRate.ToString();
                     weapon1DMG.text = weapon.BaseStats.bulletDamage.ToString();
-                    weapon1Crit.text = weapon.BaseStats.critRate.ToString();
+                    weapon1Crit.text = weapon.BaseStats.accuracy.ToString();
                     weapon1Cost.text = weapon.BaseStats.cost.ToString();
                     break;
                 case 1:
+                    shopItemName2.text = weapon.weaponName.ToString();
+                    weapon2Desc.text = weapon.description;
+
                     weapon2Cooldown.text = weapon.BaseStats.fireRate.ToString();
                     weapon2DMG.text = weapon.BaseStats.bulletDamage.ToString();
-                    weapon2Crit.text = weapon.BaseStats.critRate.ToString();
+                    weapon2Crit.text = weapon.BaseStats.accuracy.ToString();
                     weapon2Cost.text = weapon.BaseStats.cost.ToString();
                     break;
                 case 2:
+                    shopItemName3.text = weapon.weaponName.ToString();
+                    weapon3Desc.text = weapon.description;
                     weapon3Cooldown.text = weapon.BaseStats.fireRate.ToString();
                     weapon3DMG.text = weapon.BaseStats.bulletDamage.ToString();
-                    weapon3Crit.text = weapon.BaseStats.critRate.ToString();
+                    weapon3Crit.text = weapon.BaseStats.accuracy.ToString();
                     weapon3Cost.text = weapon.BaseStats.cost.ToString();
                     break;
             }
@@ -134,9 +142,7 @@ public class IUManagerScreen : StaticInstance<IUManagerScreen> {
         shopWeapons = new WeaponScriptableObject[3];
         // clear shop weapon array
         //Array.Clear(shopWeapons, 0, shopWeapons.Length);
-        //Array.Clear(shopWeaponsGameObjects, 0, shopWeaponsGameObjects.Length);
-
-
+        //Array.Clear(shopWeaponsGameObjects, 0, shopWeaponsGameObjects.Length
 
         for (int i = 0; i < shopWeapons.Length; i++) {
             shopWeapons[i] = ResourceSystem.Instance.GetRandomWeapon(); // TODO change this so that it increases chances of better level for scaling
@@ -146,13 +152,8 @@ public class IUManagerScreen : StaticInstance<IUManagerScreen> {
             shopWeaponsGameObjects[i].GetComponent<Weapon>().SetPosPrefered(i - 3);
 
         }
-        shopItemName1.text = shopWeapons[0].weaponName.ToString();
-        shopItemName2.text = shopWeapons[1].weaponName.ToString();
-        shopItemName3.text = shopWeapons[2].weaponName.ToString();
-        weapon1Desc.text = shopWeapons[0].description;
-        weapon2Desc.text = shopWeapons[1].description;
-        weapon3Desc.text = shopWeapons[2].description;
         // TODO Make more information available
+        UpdateShopText();
     }
 
     private void WeaponBuy(GameObject g) {

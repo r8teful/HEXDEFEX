@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3a8cdfe78a2b1a46aae7a594852e120, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponData: {fileID: 11400000, guid: 8780482f263b51d4aa420003f9cd80ec, type: 2}
+  weaponData: {fileID: 11400000, guid: 62253a8af414d6f46a1d92e9c9dc2c7f, type: 2}
   bulletDefault: {fileID: 6089950668900422762, guid: 266dc7ee74e95424d8b76c65b826c01e, type: 3}
 --- !u!1001 &383353724609247630
 PrefabInstance:
@@ -83,7 +83,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4066870420755394251, guid: bfd003ae32527914a810311d4ecb1db0, type: 3}
       propertyPath: m_Name
-      value: GunKnockback
+      value: Silencer
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4066870420755394248, guid: bfd003ae32527914a810311d4ecb1db0, type: 3}

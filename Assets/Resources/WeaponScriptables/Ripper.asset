@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5714d16212b66f74c8f7555146c85d4f, type: 3}
-  m_Name: WeaponBurst
+  m_Name: Ripper
   m_EditorClassIdentifier: 
   _stats:
-    cost: 2
-    fireRate: 1
+    cost: 5
+    fireRate: 0.1
     bulletDamage: 50
-    bulletSpeed: 4
+    bulletSpeed: 5
     bulletSize: 0
     defensePen: 0
     critRate: 0
@@ -25,11 +25,11 @@ MonoBehaviour:
     aoeDamage: 0
     accurasy: 0
     range: 0
-    knockback: 0.5
-  weaponClass: 3
-  weaponName: 1
-  shootMode: 1
-  prefab: {fileID: 5207814240611483619, guid: f8951d08374319347a39a333f4b4b860, type: 3}
-  specialBullet: {fileID: 6534905698257273422, guid: 36bafbb8d0be5514fbd397d59d13170b, type: 3}
+    knockback: 0.0001
+  weaponClass: 0
+  weaponName: 0
+  shootMode: 0
+  prefab: {fileID: 4066870420755394248, guid: bfd003ae32527914a810311d4ecb1db0, type: 3}
+  specialBullet: {fileID: 0}
   level: 0
-  description: Shoots three bullets in quick succession
+  description: Your normal shooting experience
